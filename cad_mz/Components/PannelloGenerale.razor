@@ -1,0 +1,59 @@
+﻿@using System.Text
+@inject IDialogService DialogService
+
+<MudPaper Style="padding: 4px">
+    <MudGrid Spacing="2">
+        <MudItem xs="12">
+            <MudText>General Selection</MudText>
+        </MudItem>
+        <MudItem xs="2">
+            <MudSelect Label="Trasmissione" Value="UserSelection.TipoTrasm" ValueChanged="(TipoTrasmissione newValue)=>loadEsecuzioni(newValue)" T="TipoTrasmissione" Style="padding-left:5px; padding-right:5px">
+                <MudSelectItem Value="TipoTrasmissione.Trasmissione">Trasmissione</MudSelectItem>
+                <MudSelectItem Value="TipoTrasmissione.DirettamenteAccoppiato">Direttamente Accoppiato</MudSelectItem>
+            </MudSelect>
+        </MudItem>
+        <MudItem xs="5">
+            <MudSelect Label="Serie" Value="UserSelection.SelectedSerie" ValueChanged="(Serie newValue)=>loadVentilatori(newValue)" T="Serie" Style="padding-left:5px; padding-right:5px">
+                @foreach (var serie in UserData.Serie)
+                {
+                    <MudSelectItem Value="@serie">@serie.Name</MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+        <MudItem xs="5">
+            <MudSelect Label="Modello" Value="UserSelection.SelectedFan" ValueChanged="(Ventilatore newValue)=>selectVentilatore(newValue)" T="Ventilatore" Style="padding-left:5px; padding-right:5px">
+                @foreach (var fan in UserSelection.SelectedSerie.DimensionalDatas)
+                {
+                    <MudSelectItem Value="@fan">@fan.Model</MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+        <MudItem xs="2">
+            <MudSelect Label="Esecuzione" Value="UserSelection.Esecuzione" ValueChanged="(KeyValuePair<String, TipoTrasmissione> newValue) => loadMotori(newValue)" T="KeyValuePair<String, TipoTrasmissione>" Style="padding-left:5px; padding-right:5px">
+                @foreach (var Esecuzione in UserData.Esecuzioni.Where(x=>x.Value.Equals(UserSelection.TipoTrasm))) 
+                {
+                    <MudSelectItem Value="@Esecuzione">@Esecuzione.Key</MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+        <MudItem xs="2">
+            <MudSelect Label="Rotazione" @bind-Value="UserSelection.Rotazione" T="KeyValuePair<String, int>" Style="padding-left:5px; padding-right:5px">
+                @foreach (var Rotazione in UserData.Rotazioni)
+                {
+                    <MudSelectItem Value="@Rotazione">@Rotazione.Key</MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+        <MudItem xs="8" Style="align-content: end">
+            @if(VisualizzaPannelloMotore)
+            {
+                <MudStack Row AlignItems="AlignItems.Baseline">
+                    <MudText> @UserSelection.SelectedFan.MotoreSelezionato.Descrizione.Trim() Poli </MudText>
+                    <MudButton OnClick="ScegliMotore">Cambia Motore</MudButton>
+                </MudStack>
+            }
+        </MudItem>
+    </MudGrid>
+
+
+</MudPaper>   

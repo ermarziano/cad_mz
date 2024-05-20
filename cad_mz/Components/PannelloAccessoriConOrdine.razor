@@ -1,0 +1,20 @@
+﻿@using System.Text
+@using static cad_mz.Logic.Entities.Accessorio
+
+<MudPaper Style="@styleinfo">
+    <MudText GutterBottom=true>@Titolo</MudText>
+    <MudStack Row Style="flex-wrap: wrap;">
+        @foreach (var acc in UserData.Accessori.Where(x => x.TypeOfOptional.Equals(Tipo)))
+        {
+            <SelettoreAccessorio Acc="acc" Ts="SelettoreAccessorio.TipoSelettore.Numeric" reload="@((args)=>ContaECreaLista(acc, args.Item1,args.Item2))"/>
+        }
+    </MudStack>
+    <SortableList Id="@sortableID" Items="ListaInterna" OnUpdate="@SortList" Context="item">
+        <SortableItemTemplate>
+            <div>
+                <MudPaper Elevation="25" Style="min-width:150px; text-align: center;" Class="pa-4 my-4">@item.ToString()</MudPaper>
+            </div>
+        </SortableItemTemplate>
+    </SortableList>
+</MudPaper>   
+

@@ -1,0 +1,117 @@
+﻿@page "/"
+@using cad_mz.Logic
+@using static cad_mz.Logic.Entities
+@inject IDialogService DialogService
+
+<PageTitle>3d Models Creator</PageTitle>
+<CascadingValue Value="UserSelection">
+    <CascadingValue Value="UserData">
+        <MudStack>
+            <MudGrid>
+                <MudItem xs="12">
+                    <PannelloGenerale refreshAction="refresh"/>
+                </MudItem>
+                <MudItem xs="12">
+                    <PannelloAccessori @ref="pa" />
+                </MudItem>
+                <MudItem xs="12">
+                    <PannelloAccessoriConOrdine Tipo="Accessorio.TipoAccessorio.Mandata" />
+                </MudItem>
+                <MudItem xs="2">
+                    <MudStack>
+                        <MudButton Size="Size.Small" OnClick="showMandata">@butSilMan</MudButton>
+                        <MudButton Size="Size.Small" OnClick="removeMandata">Rimuovi Silenziatore in Mandata</MudButton>
+                    </MudStack>
+                </MudItem>
+                <MudItem xs="10">
+                @if (MostraSilenziatoreMandata)
+                {
+                    <PannelloAccessoriConOrdine Tipo="Accessorio.TipoAccessorio.SilMandata" />
+                }
+                </MudItem>
+                <MudItem xs="12">
+                <PannelloAccessoriConOrdine Tipo="Accessorio.TipoAccessorio.Aspirazione" />
+                </MudItem>
+                <MudItem xs="2">
+                    <MudStack>
+                        <MudButton Size="Size.Small" OnClick="showAspirazione">@butSilAsp</MudButton>
+                            <MudButton Size="Size.Small" OnClick="removeAspirazione">Rimuovi Silenziatore in Mandata</MudButton>
+                    </MudStack>
+                </MudItem>
+                <MudItem xs="10">
+                @if (MostraSilenziatoreAspirazione)
+                {
+                    <PannelloAccessoriConOrdine Tipo="Accessorio.TipoAccessorio.SilAspirazione" />
+                }
+                </MudItem>
+            </MudGrid>
+            <MudButton OnClick="Send">Conferma Selezione e Invia</MudButton>
+        </MudStack>
+    </CascadingValue>
+</CascadingValue>
+
+
+@code {
+    Selection UserSelection = new();
+    SQLData UserData = new();
+    private PannelloAccessori pa;
+    private bool MostraSilenziatoreMandata = false, MostraSilenziatoreAspirazione = false, btnManDis = false, btnAspDis = false;
+    private string butSilMan = "Aggiungi Silenziatore in Mandata", butSilAsp = "Aggiungi Silenziatore in Aspirazione";
+    protected override async Task OnInitializedAsync()
+    {
+        base.OnInitialized();
+        await UserData.SQLDataLoad();
+    }
+    protected async Task showMandata ()
+    {
+        butSilMan = "Cambia Silenziatore in Mandata";
+        var parameters = new DialogParameters<DialogSilenziatore>();
+        parameters.Add(x => x.selection, UserSelection);
+        parameters.Add(x => x.data, UserData);
+        parameters.Add(x => x.tipo, Accessorio.TipoAccessorio.Mandata);
+        var dialog = await DialogService.ShowAsync<DialogSilenziatore>("Seleziona Silenziatore in Mandata", parameters);
+        var result = await dialog.Result;
+        MostraSilenziatoreMandata = (bool) result.Data;
+        StateHasChanged();
+    }
+    protected async Task showAspirazione()
+    {
+        butSilMan = "Cambia Silenziatore in Aspirazione";
+        var parameters = new DialogParameters<DialogSilenziatore>();
+        parameters.Add(x => x.selection, UserSelection);
+        parameters.Add(x => x.data, UserData);
+        parameters.Add(x => x.tipo, Accessorio.TipoAccessorio.Aspirazione);
+        var dialog = await DialogService.ShowAsync<DialogSilenziatore>("Seleziona Silenziatore in Aspirazione", parameters);
+        var result = await dialog.Result;
+        MostraSilenziatoreAspirazione = (bool)result.Data;
+        StateHasChanged();
+    }
+    protected void removeMandata()
+    {
+        UserSelection.SilenziatoreMandata = new();
+        foreach (var item in UserData.Accessori)
+        {
+            if (item.TypeOfOptional.Equals(Accessorio.TipoAccessorio.SilMandata))
+                item.Selected = false;
+        }
+    }
+    protected void refresh()
+    {
+        pa.Refresh();
+    }
+    protected void removeAspirazione()
+    {
+        UserSelection.SilenziatoreAspirazione = new();
+        foreach (var item in UserData.Accessori)
+        {
+            if (item.TypeOfOptional.Equals(Accessorio.TipoAccessorio.SilAspirazione))
+                item.Selected = false;
+        }
+    }
+    protected async Task Send()
+    {
+        CreazioneJson cs = new(UserSelection, UserData);
+        await cs.Crea();
+    }
+}
+

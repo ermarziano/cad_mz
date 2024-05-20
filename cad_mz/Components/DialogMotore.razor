@@ -1,0 +1,25 @@
+﻿@inject IDialogService DialogService
+
+<MudDialog >
+    <DialogContent>
+        <MudSelect @bind-Value=@selection.SelectedFan.MotoreSelezionato T="Motore">
+            @foreach (var MotorePossibile in data.Motori)
+            {
+                <MudSelectItem Value="@MotorePossibile">@MotorePossibile.Descrizione.Trim() Poli</MudSelectItem>
+            }
+        </MudSelect>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } = default!;
+    [Parameter] public Selection selection { get; set; } = null!;
+    [Parameter] public SQLData data { get; set; } = null!;
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+
+}

@@ -1,0 +1,68 @@
+﻿@using System.Text
+@using static cad_mz.Logic.Entities.Accessorio
+
+<MudPaper Style="padding: 4px">
+    <MudGrid Spacing="2">
+        <MudItem xs="12">
+            <MudText>Accessori</MudText>
+        </MudItem>
+        <MudItem xs="12">
+            <MudStack Row Style="flex-wrap: wrap;">
+                 @foreach (var acc in UserData.Accessori.Where(x => x.TypeOfOptional.Equals(TipoAccessorio.Chiocciola)))
+                {
+                    <SelettoreAccessorio Acc="acc" Ts="SelettoreAccessorio.TipoSelettore.Check" reload="@((args)=>ControllaEsclusioni(acc, args.Item1, args.Item2))" />
+                }
+            </MudStack>
+        </MudItem>
+    </MudGrid>
+</MudPaper>   
+@code {
+    [CascadingParameter] Selection UserSelection { get; set; } = new()!;
+    [CascadingParameter] SQLData UserData { get; set; } = new()!;
+    private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+    protected override void OnParametersSet()
+    {
+        base.OnInitialized();
+        StateHasChanged();
+    }
+    protected void ControllaEsclusioni(Accessorio acc, bool info, int qty)
+    {
+        switch (acc.Code)
+        {
+            case "AV":
+                UserData.Accessori.Find(x => x.Code.Equals("SA")).Disabled = info;
+                UserData.Accessori.Find(x => x.Code.Equals("SA")).Selected = info;
+                break;
+            case "PAV":
+                UserData.Accessori.Find(x => x.Code.Equals("SA")).Disabled = info;
+                UserData.Accessori.Find(x => x.Code.Equals("SA")).Selected = info;
+                UserData.Accessori.Find(x => x.Code.Equals("AV")).Disabled = info;
+                UserData.Accessori.Find(x => x.Code.Equals("AV")).Selected = info;
+                break;
+            case "TN":
+                if (UserSelection.SelectedFan.MotorSize.Contains("71"))
+                {
+                    UserData.Accessori.Find(x => x.Code.Equals("GC")).Selected = !info;
+                }
+                break;
+            case "GC":
+                if (UserSelection.SelectedFan.MotorSize.Contains("71"))
+                {
+                    UserData.Accessori.Find(x => x.Code.Equals("TN")).Selected = !info;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    public void Refresh()
+    {
+        if (UserSelection.SelectedFan.Casing_data.Support_Mandatory)
+        {
+            UserData.Accessori.Find(x => x.Code.Equals("SA")).Selected = true;
+            UserData.Accessori.Find(x => x.Code.Equals("SA")).Disabled = true;
+        }
+    }
+}
+
+

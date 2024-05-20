@@ -1,0 +1,46 @@
+﻿@inject IDialogService DialogService
+
+<MudDialog>
+    <DialogContent>
+        <MudSelect @bind-Value=@silenziatoreSelezionato T="(string, int)">
+            @foreach (var silenziatorePossibile in listaFiltrata)
+            {
+                <MudSelectItem Value="@silenziatorePossibile">@silenziatorePossibile.Codice - @silenziatorePossibile.Lunghezza mm</MudSelectItem>
+            }
+        </MudSelect>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } = default!;
+    [Parameter] public Selection selection { get; set; } = null!;
+    [Parameter] public SQLData data { get; set; } = null!;
+    [Parameter] public Accessorio.TipoAccessorio tipo { get; set; }
+    private (string, int) silenziatoreSelezionato;
+    private List<(string Codice, int Lunghezza)> listaFiltrata = new()!;
+    void Submit()
+    {
+        if (tipo == Accessorio.TipoAccessorio.Aspirazione)
+            selection.SilenziatoreAspirazione = silenziatoreSelezionato;
+        else
+            selection.SilenziatoreMandata = silenziatoreSelezionato;
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+    void Cancel() => MudDialog.Cancel();
+
+    protected override void OnInitialized()
+    {
+        string bocca = tipo.Equals(Accessorio.TipoAccessorio.Mandata) ? selection.SelectedFan.Casing_data.Outlet : selection.SelectedFan.Casing_data.Inlet;
+        listaFiltrata = data.Silenziatori.Find(x => x.Bocca.Equals(bocca)).Item2;
+        if (tipo == Accessorio.TipoAccessorio.Aspirazione)
+            silenziatoreSelezionato = selection.SilenziatoreAspirazione;
+        else
+            silenziatoreSelezionato = selection.SilenziatoreMandata;
+        if (silenziatoreSelezionato == default)
+            silenziatoreSelezionato = listaFiltrata.First();
+    }
+}

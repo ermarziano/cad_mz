@@ -1,0 +1,20 @@
+﻿
+@if (Ts == TipoSelettore.Check)
+{
+    <MudPaper Style="padding-left:5px">
+        <MudStack Row AlignItems="AlignItems.Center" Justify="Justify.Center" Spacing="1">
+            <MudText Typo="Typo.h6">@Acc.Code</MudText>
+            <MudCheckBox Value="@Acc.Selected" ValueChanged="(bool newValue) => AggiornaBool(newValue)" Disabled="@Acc.Disabled"/>
+        </MudStack>
+    </MudPaper>
+}
+@if (Ts == TipoSelettore.Numeric)
+{
+    <MudPaper Style="padding-left:5px; padding-right:5px; max-width:150px">
+        <MudStack Row AlignItems="AlignItems.Center" Justify="Justify.Center" Spacing="3">
+             <MudText Typo="Typo.h6">@Acc.Code</MudText>
+             <MudNumericField Value="@Acc.Qty" Min="0" ValueChanged="(int newValue) => AggiornaInt(newValue)" FullWidth="false" Style="margin-top: 4px; margin-bottom: 10px;" />
+        </MudStack>
+    </MudPaper>
+}
+
