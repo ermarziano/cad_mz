@@ -22,7 +22,7 @@ namespace cad_mz.Logic
             public List<Accessorio> AccessoriAspirazione { get; set; } = new();
             public Silenziatore? SilenziatoreMandata { get; set; }
             public Silenziatore? SilenziatoreAspirazione { get; set; }
-            public string Mail { get; set; } = "eraldo.marziano@configuratori.com";
+            public string Mail { get; set; } = Resources.Resource.Default_mail;
             public bool Caricato { get; set; } = false;
             public string GetH()
             {

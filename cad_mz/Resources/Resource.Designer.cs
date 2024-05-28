@@ -70,6 +70,15 @@ namespace cad_mz.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inserire Mail.
+        /// </summary>
+        public static string Default_mail {
+            get {
+                return ResourceManager.GetString("Default mail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to C:\_DEVELOPMENT\mz-cad\CAD_TEMPLATES\.
         /// </summary>
         public static string Percorso {
