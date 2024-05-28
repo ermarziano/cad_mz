@@ -1,67 +1,69 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using cad_mz.Logic;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Newtonsoft.Json.Linq;
 using static cad_mz.Logic.Entities;
 
 namespace cad_mz.Components
 {
     public partial class PannelloGenerale
     {
-        [CascadingParameter] Selection UserSelection { get; set; } = new()!;
-        [CascadingParameter] SQLData UserData { get; set; } = new()!;
-        [Parameter] public EventCallback refreshAction { get; set; }
-        private bool VisualizzaPannelloMotore = false;
+        [CascadingParameter] MyCascadingValues Values { get; set; } = new()!;
+        public Serie defaultSerie = null;
+        public Ventilatore defaultVentilatore = null;
+        public bool VisualizzaPannelloMotore = false;
+        public MudSelect<Ventilatore> ms;
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-        protected void loadEsecuzioni(TipoTrasmissione Trasmissione)
-        {
-            UserSelection.TipoTrasm = Trasmissione;
-            UserSelection.Esecuzione = UserData.Esecuzioni.Find((x => x.Value == UserSelection.TipoTrasm));
-            StateHasChanged();
-        }
-        protected void loadVentilatori(Serie serie)
-        {
-            UserSelection.SelectedSerie = serie;
-            UserSelection.SelectedFan = serie.DimensionalDatas.First();
-            StateHasChanged();
-        }
-        protected void loadMotori(KeyValuePair<String, TipoTrasmissione> Esecuzione)
-        {
-            UserSelection.Esecuzione = Esecuzione;
-            if (Esecuzione.Value == TipoTrasmissione.DirettamenteAccoppiato)
-            {
-                var TagliePossibili = UserData.CodiciSedie.Where(x => x.Item1.StartsWith(UserSelection.SelectedFan.Casing_data.ChairE04)).Select(x => x.Item2).Distinct(); //cerca le taglie possibili dall'elenco delle sedie
-                UserSelection.MotoriFiltrati = UserData.Motori.Where(x => TagliePossibili.Contains(x.Taglia)).ToList();
-            }
-        }
-        protected void selectVentilatore(Ventilatore Fan)
-        {
-            UserSelection.SelectedFan = Fan;
-            string inizioDescrizione = $"{UserSelection.SelectedFan.MotorSize} {UserSelection.SelectedFan.Kw}";
-            UserSelection.SelectedFan.MotoreSelezionato = UserData.Motori.Find(x => x.Descrizione.StartsWith(inizioDescrizione));
-            VisualizzaPannelloMotore = true;
-            refreshAction.InvokeAsync();
-        }
-
-        protected override void OnParametersSet()
+        protected override void OnInitialized()
         {
             base.OnInitialized();
-            if (UserData.Serie.Count > 0)
+            if (Values.UserData.Rotazioni.Count > 0)
             {
-                UserSelection.SelectedSerie = UserData.Serie.First();
-                UserSelection.SelectedFan = UserSelection.SelectedSerie.DimensionalDatas.First();
-                UserSelection.Esecuzione = UserData.Esecuzioni.Find((x => x.Value == UserSelection.TipoTrasm));
-                UserSelection.Rotazione = UserData.Rotazioni.First();
-                string inizioDescrizione = $"{UserSelection.SelectedFan.MotorSize} {UserSelection.SelectedFan.Kw}";
-                UserSelection.SelectedFan.MotoreSelezionato = UserData.Motori.Find(x => x.Descrizione.StartsWith(inizioDescrizione));
-                VisualizzaPannelloMotore = true;
+                Values.UserSelection.Esecuzione = Values.UserData.Esecuzioni.Where(x => x.Value == TipoTrasmissione.DirettamenteAccoppiato).First();
+                Values.UserSelection.Rotazione = Values.UserData.Rotazioni.First();
             }
+        }
+        protected void LoadEsecuzioni(TipoTrasmissione Trasmissione)
+        {
+            Values.UserSelection.TipoTrasm = Trasmissione;
+            Values.UserSelection.Esecuzione = Values.UserData.Esecuzioni.Find((x => x.Value == Values.UserSelection.TipoTrasm));
             StateHasChanged();
+        }
+        protected void CaricaSerie(Serie serie)
+        {
+            Values.UserSelection.SelectedSerie = serie;
+            defaultSerie = serie;
+            Values.UserSelection.SelectedFan = serie.DimensionalDatas.First();
+            StateHasChanged();
+        }
+        protected void LoadMotori(KeyValuePair<String, TipoTrasmissione> Esecuzione)
+        {
+            Values.UserSelection.Esecuzione = (KeyValuePair<string, TipoTrasmissione>)Esecuzione;
+            if (Values.UserSelection.Esecuzione.Value == TipoTrasmissione.DirettamenteAccoppiato)
+            {
+                var TagliePossibili = Values.UserData.CodiciSedie.Where(x => x.Item1.StartsWith(Values.UserSelection.SelectedFan.DatiChiocciola.ChairE04)).Select(x => x.Item2).Distinct(); //cerca le taglie possibili dall'elenco delle sedie
+                Values.UserSelection.MotoriFiltrati = Values.UserData.Motori.Where(x => TagliePossibili.Contains(x.Taglia)).ToList();
+            }
+        }
+        protected void SelectVentilatore(Ventilatore Fan)
+        {
+            if (Fan != null)
+            {
+                defaultVentilatore = Fan;
+                Values.UserSelection.SelectedFan = Fan;
+                Values.ValuesChanged.Invoke();
+                string inizioDescrizione = $"{Values.UserSelection.SelectedFan.MotorSize} {Values.UserSelection.SelectedFan.Kw}";
+                Values.UserSelection.SelectedFan.MotoreSelezionato = Values.UserData.Motori.Find(x => x.Descrizione.StartsWith(inizioDescrizione));
+                VisualizzaPannelloMotore = true;
+                StateHasChanged();
+            }
         }
         protected async Task ScegliMotore()
         {
             var parameters = new DialogParameters<DialogMotore>();
             DialogOptions maxWidth = new DialogOptions() { MaxWidth = MaxWidth.Small, FullWidth = true };
-            parameters.Add(x => x.selection, UserSelection);
-            parameters.Add(x => x.data, UserData);
+            parameters.Add(x => x.selection, Values.UserSelection);
+            parameters.Add(x => x.data, Values.UserData);
             var dialog = await DialogService.ShowAsync<DialogMotore>("Scegli Motore", parameters, maxWidth);
             var result = await dialog.Result;
             StateHasChanged();

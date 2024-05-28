@@ -4,7 +4,7 @@
 <MudPaper Style="@styleinfo">
     <MudText GutterBottom=true>@Titolo</MudText>
     <MudStack Row Style="flex-wrap: wrap;">
-        @foreach (var acc in UserData.Accessori.Where(x => x.TypeOfOptional.Equals(Tipo)))
+         @foreach (var acc in values.UserData.Accessori.Where(x => x.TypeOfOptional.Equals(Tipo)))
         {
             <SelettoreAccessorio Acc="acc" Ts="SelettoreAccessorio.TipoSelettore.Numeric" reload="@((args)=>ContaECreaLista(acc, args.Item1,args.Item2))"/>
         }

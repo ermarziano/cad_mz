@@ -1,16 +1,17 @@
 ﻿using Microsoft.AspNetCore.Components;
 using static cad_mz.Logic.Entities.Accessorio;
 using static cad_mz.Logic.Entities;
+using cad_mz.Logic;
 
 namespace cad_mz.Components
 {
     public partial class PannelloAccessoriConOrdine
     {
-        [CascadingParameter] Selection UserSelection { get; set; } = new()!;
-        [CascadingParameter] SQLData UserData { get; set; } = new()!;
+        [CascadingParameter] MyCascadingValues values { get; set; } = new()!;
         [Parameter] public TipoAccessorio Tipo { get; set; }
+        [Parameter] public bool Visibile { get; set; } = true;
         private String Titolo = String.Empty, sortableID = String.Empty, styleinfo = "padding: 4px";
-        private List<Accessorio> ListaInterna = new();
+        public List<Accessorio> ListaInterna = new();
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         protected override void OnParametersSet()
         {
@@ -23,7 +24,8 @@ namespace cad_mz.Components
                     styleinfo = "padding: 4px";
                     break;
                 case TipoAccessorio.SilAspirazione:
-                    Titolo = $"Accessori per {UserSelection.SilenziatoreAspirazione.Codice} con tramoggia associata";
+                    if (values.UserSelection.SilenziatoreAspirazione != null)
+                        Titolo = $"Accessori per {values.UserSelection.SilenziatoreAspirazione.Codice} in Aspirazione con tramoggia associata";
                     sortableID = "sortAspirazioneSil";
                     styleinfo = "padding: 4px"; //; margin-left:60px";
                     break;
@@ -33,16 +35,21 @@ namespace cad_mz.Components
                     styleinfo = "padding: 4px";
                     break;
                 case TipoAccessorio.SilMandata:
-                    Titolo = $"Accessori per {UserSelection.SilenziatoreMandata.Codice} con tramoggia associata";
+                    if (values.UserSelection.SilenziatoreMandata != null)
+                        Titolo = $"Accessori per {values.UserSelection.SilenziatoreMandata.Codice} in Mandata con tramoggia associata";
                     sortableID = "sortMandataSil";
                     styleinfo = "padding: 4px"; //margin-left:60px";
                     break;
             }
+            if (!Visibile) {
+                styleinfo += "; display:none";
+            }
             StateHasChanged();
         }
-        public void Refresh()
+        public void Show()
         {
-            StateHasChanged();
+            Visibile = true;
+            styleinfo = "padding: 4px";
         }
         protected void ContaECreaLista(Accessorio acc, bool info, int qty)
         {
@@ -63,21 +70,23 @@ namespace cad_mz.Components
                 }
             }
         }
-        protected void ConfermaAccessori()
+        public void ConfermaAccessori()
         {
             switch (Tipo)
             {
                 case TipoAccessorio.Aspirazione:
-                    UserSelection.AccessoriAspirazione = new List<Accessorio>(ListaInterna);
+                    values.UserSelection.AccessoriAspirazione = new List<Accessorio>(ListaInterna);
                     break;
                 case TipoAccessorio.SilAspirazione:
-                    UserSelection.AccessoriAspirazioneSil = new List<Accessorio>(ListaInterna);
+                    if (values.UserSelection.SilenziatoreAspirazione != null)
+                        values.UserSelection.SilenziatoreAspirazione.Accessori = new List<Accessorio>(ListaInterna);
                     break;
                 case TipoAccessorio.Mandata:
-                    UserSelection.AccessoriMandata = new List<Accessorio>(ListaInterna);
+                    values.UserSelection.AccessoriMandata = new List<Accessorio>(ListaInterna);
                     break;
                 case TipoAccessorio.SilMandata:
-                    UserSelection.AccessoriMandataSil = new List<Accessorio>(ListaInterna);
+                    if (values.UserSelection.SilenziatoreMandata != null)
+                        values.UserSelection.SilenziatoreMandata.Accessori = new List<Accessorio>(ListaInterna);
                     break;
             }
         }

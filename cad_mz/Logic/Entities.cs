@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Newtonsoft.Json;
 using System.Runtime.Intrinsics.Arm;
+using System.Transactions;
 using static cad_mz.Logic.Entities;
 
 namespace cad_mz.Logic
@@ -8,6 +10,7 @@ namespace cad_mz.Logic
     {
         public class Selection
         {
+            [JsonIgnore]
             public Serie SelectedSerie { get; set; } = new("Selezione Serie");
             public Ventilatore SelectedFan { get; set; } = new Ventilatore() { Model = "Seleziona Modello"};
             public TipoTrasmissione TipoTrasm { get; set; } 
@@ -17,10 +20,10 @@ namespace cad_mz.Logic
             public List<Accessorio> AccessoriChiocciola { get; set; } = new();
             public List<Accessorio> AccessoriMandata { get; set; } = new();
             public List<Accessorio> AccessoriAspirazione { get; set; } = new();
-            public List<Accessorio> AccessoriMandataSil { get; set; } = new();
-            public List<Accessorio> AccessoriAspirazioneSil { get; set; } = new();
-            public (string Codice, int Lunghezza) SilenziatoreMandata { get; set; }
-            public (string Codice, int Lunghezza) SilenziatoreAspirazione { get; set; }
+            public Silenziatore? SilenziatoreMandata { get; set; }
+            public Silenziatore? SilenziatoreAspirazione { get; set; }
+            public string Mail { get; set; } = "eraldo.marziano@configuratori.com";
+            public bool Caricato { get; set; } = false;
             public string GetH()
             {
                 return Rotazione.Key switch
@@ -30,16 +33,27 @@ namespace cad_mz.Logic
                     _ => "H0"
                 };
             }
+            public bool IsPortelloA()
+            {
+                return Rotazione.Value switch
+                {
+                    0 => true,
+                    45 => true,
+                    315 => true,
+                    _ => false
+                };
+            }
         }
         public class Ventilatore
         {
             public int Id { get; set; }
+            public string Serie { get; set; } = "";
             public string Model { get; set; } = string.Empty;
             public string MotorSize { get; set; } = string.Empty;
             public double Kw { get; set; }
             public int Poles { get; set; }
             public Motore MotoreSelezionato { get; set; } = new();
-            public Chiocciola Casing_data { get; set; } = new();
+            public Chiocciola DatiChiocciola { get; set; } = new();
         }
         public class Serie
         {
@@ -53,21 +67,6 @@ namespace cad_mz.Logic
             }
             public string Name { get; set; } = string.Empty;
             public List<Ventilatore> DimensionalDatas { get; set; } = new List<Ventilatore>();
-        }
-        public class Fan
-        {
-            public int Id { get; set; }
-            public string Series { get; set; } = string.Empty;
-            public string Model { get; set; } = string.Empty;
-            public bool IsTransmission { get; set; } = false;
-            public KeyValuePair<String, bool> Construction { get; set; }
-            public Motore InstalledMotor { get; set; } = new()!;
-            public string AspSilencer { get; set; } = string.Empty;
-            public string ManSilencer { get; set; } = string.Empty;
-            public int Poles, Ch_Size;
-            public bool Ch_TipoBocca, SupportoRichiesto;
-            public List<Motore> MotorsList = new();
-            public List<Accessorio> AccessoriSelezionati = new();
         }
         public class Motore
         {
@@ -93,6 +92,7 @@ namespace cad_mz.Logic
                 Code = _Code;
                 TypeOfOptional = _type; 
             }
+            public int max = 100;
             public bool Disabled { get; set; } = false;
             public string Code { get; set; }
             public Boolean Selected { get; set; } = false;
@@ -102,16 +102,9 @@ namespace cad_mz.Logic
             }
             public int Qty { get; set; } = 0;
             public int Id { get; set; }
-            public Boolean Visible { get; set; } = true;
-            public string Direction { get; set; } = ""!;
             public override string ToString()
             {
                 return Code + " - " + Id;
-            }
-            public string Drop { get; set; } = "Drop";
-            public bool Is(string codice)
-            {
-                return Code.Equals(codice);
             }
             public TipoAccessorio TypeOfOptional; 
 
@@ -131,8 +124,76 @@ namespace cad_mz.Logic
                 SilAspirazione,
                 SilMandata
             }
-        }
 
+            public override int GetHashCode()
+            {
+                return HashCode.Combine(this.Code, this.Id);
+            }
+        }
+        public struct ProprietaParametro
+        {
+            public string nome;
+            public double valore;
+            public ProprietaParametro(string nome, double valore)
+            {
+                this.nome = nome;
+                this.valore = valore;
+            }
+            public override string? ToString()
+            {
+                return $"{nome} - {valore}";
+            }
+        }
+        public class DatiDimensionali
+        {
+            public List<ProprietaParametro> dati;
+            public DatiDimensionali()
+            {
+                dati = new();
+            }
+            public void Add(string nome, double valore)
+            {
+                dati.Add(new ProprietaParametro(nome, valore));
+            }
+            public double Get(string nome)
+            {
+                return dati.Find(x => x.nome == nome).valore;
+            }
+            public bool Rename(string vecchio, string nuovo)
+            {
+                if (dati.Any(x => x.nome == vecchio))
+                {
+                    int position = dati.FindIndex(x => x.nome == vecchio);
+                    if (position > -1)
+                    {
+                        ProprietaParametro mod = new() { nome = nuovo, valore = dati[position].valore };
+                        dati.RemoveAt(position);
+                        dati.Insert(position, mod);
+                    }
+                    return true;
+                }
+                return false;
+            }
+            public bool Remove(string Nome)
+            {
+                if (dati.Any(x => x.nome == Nome))
+                {
+                    dati.RemoveAt(dati.FindIndex(x => x.nome == Nome));
+                    return true;
+                }
+                return false;
+            }
+            public void Append(List<ProprietaParametro> listAdd)
+            {
+                this.dati.AddRange(listAdd);
+            }
+            public double Pop(string nome)
+            {
+                double result = Get(nome);
+                Remove(nome);
+                return result;
+            }
+        }
         public class Chiocciola
         {
             public string Code { get; set; } = string.Empty;
@@ -162,7 +223,7 @@ namespace cad_mz.Logic
             public List<KeyValuePair<string, int>> Rotazioni { get; set; } = new();
             public List<Motore> Motori { get; set; } = new();
             public List<(String, int)> CodiciSedie { get; set; } = new();
-            public List<(string Bocca, List<(string Codice, int Lunghezza)>)> Silenziatori { get; set; } = new();
+            public List<Silenziatore> Silenziatori { get; set; } = new();
             public async Task SQLDataLoad()
             {
                 Serie = await SQL.CaricaSerie();
@@ -193,6 +254,20 @@ namespace cad_mz.Logic
         {
             Trasmissione = 1,  //true
             DirettamenteAccoppiato = 0  //false
+        }
+        public class Silenziatore
+        {
+            public Silenziatore(string dimensioneBocca, string codice, double lunghezzaTramoggia)
+            {
+                Codice = codice;
+                LunghezzaTramoggia = lunghezzaTramoggia;
+                DimensioneBocca = dimensioneBocca;
+            }
+
+            public string Codice { get; set; } = "";
+            public double LunghezzaTramoggia { get; set; }
+            public string DimensioneBocca { get; set; } = "";
+            public List<Accessorio> Accessori { get; set; } = new();
         }
     }
 }

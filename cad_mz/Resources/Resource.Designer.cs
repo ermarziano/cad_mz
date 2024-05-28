@@ -61,7 +61,16 @@ namespace cad_mz.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Percorso.
+        ///   Looks up a localized string similar to https://cadserver.configuratori.online/.
+        /// </summary>
+        public static string CADServerURL {
+            get {
+                return ResourceManager.GetString("CADServerURL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to C:\_DEVELOPMENT\mz-cad\CAD_TEMPLATES\.
         /// </summary>
         public static string Percorso {
             get {

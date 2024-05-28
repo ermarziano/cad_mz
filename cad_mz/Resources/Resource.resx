@@ -117,8 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CADServerURL" xml:space="preserve">
+    <value>https://cadserver.configuratori.online/</value>
+  </data>
   <data name="Percorso" xml:space="preserve">
-    <value>Percorso</value>
+    <value>C:\_DEVELOPMENT\mz-cad\CAD_TEMPLATES\</value>
   </data>
   <data name="SQLSviluppo" xml:space="preserve">
     <value>Server = CITY540ERALDO\SQLEXPRESS;Database=MZ_CAD;Trusted_Connection=True;TrustServerCertificate=true;MultipleActiveResultSets=true</value>

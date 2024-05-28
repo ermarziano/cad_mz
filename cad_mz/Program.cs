@@ -12,6 +12,7 @@ builder.Host.UseNLog();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddMudServices();
+builder.Services.AddBlazorDownloadFile();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

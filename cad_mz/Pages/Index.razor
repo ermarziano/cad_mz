@@ -1,117 +1,244 @@
 ﻿@page "/"
+@using Newtonsoft.Json
+@using System.Text
+@using System.Net
 @using cad_mz.Logic
 @using static cad_mz.Logic.Entities
+@using Blazor.DownloadFileFast.Interfaces
 @inject IDialogService DialogService
+@inject IBlazorDownloadFileService BlazorDownloadFileService
 
 <PageTitle>3d Models Creator</PageTitle>
-<CascadingValue Value="UserSelection">
-    <CascadingValue Value="UserData">
-        <MudStack>
-            <MudGrid>
-                <MudItem xs="12">
-                    <PannelloGenerale refreshAction="refresh"/>
-                </MudItem>
-                <MudItem xs="12">
-                    <PannelloAccessori @ref="pa" />
-                </MudItem>
-                <MudItem xs="12">
-                    <PannelloAccessoriConOrdine Tipo="Accessorio.TipoAccessorio.Mandata" />
-                </MudItem>
-                <MudItem xs="2">
-                    <MudStack>
-                        <MudButton Size="Size.Small" OnClick="showMandata">@butSilMan</MudButton>
-                        <MudButton Size="Size.Small" OnClick="removeMandata">Rimuovi Silenziatore in Mandata</MudButton>
+<MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
+    <ButtonTemplate>
+        <MudButton HtmlTag="label"
+                   Variant="Variant.Filled"
+                   Style="background-color: rgb(63, 208, 113)"
+                   StartIcon="@Icons.Material.Filled.CloudUpload"
+                   for="@context.Id">
+            Carica progetto salvato
+        </MudButton>
+    </ButtonTemplate>
+</MudFileUpload>
+<CascadingValue Value="values">
+    <MudStack>
+        <MudGrid>
+            <MudItem xs="12">
+                <PannelloGenerale @ref="pg" />
+            </MudItem>
+            <MudItem xs="12">
+                <PannelloAccessori @ref="pa" />
+            </MudItem>
+            <MudItem xs="12">
+                <PannelloAccessoriConOrdine Tipo="Accessorio.TipoAccessorio.Mandata" @ref="Mandata" />
+            </MudItem>
+            <MudItem xs="2">
+                <MudStack>
+                    <MudButton Size="Size.Small" OnClick="showMandata" Style="background-color: rgb(63, 208, 113)">@butSilMan</MudButton>
+                        <MudButton Size="Size.Small" OnClick="removeMandata" Style="background-color: rgb(240, 93, 93)">Rimuovi Silenziatore in Mandata</MudButton>
                     </MudStack>
                 </MudItem>
                 <MudItem xs="10">
-                @if (MostraSilenziatoreMandata)
-                {
-                    <PannelloAccessoriConOrdine Tipo="Accessorio.TipoAccessorio.SilMandata" />
-                }
+                    <PannelloAccessoriConOrdine Visibile="@MostraSilenziatoreMandata" Tipo="Accessorio.TipoAccessorio.SilMandata" @ref="MandataSil" />
                 </MudItem>
                 <MudItem xs="12">
-                <PannelloAccessoriConOrdine Tipo="Accessorio.TipoAccessorio.Aspirazione" />
+                    <PannelloAccessoriConOrdine Tipo="Accessorio.TipoAccessorio.Aspirazione" @ref="Aspirazione" />
                 </MudItem>
                 <MudItem xs="2">
                     <MudStack>
-                        <MudButton Size="Size.Small" OnClick="showAspirazione">@butSilAsp</MudButton>
-                            <MudButton Size="Size.Small" OnClick="removeAspirazione">Rimuovi Silenziatore in Mandata</MudButton>
+                        <MudButton Size="Size.Small" OnClick="showAspirazione" Style="background-color: rgb(63, 208, 113)">@butSilAsp</MudButton>
+                        <MudButton Size="Size.Small" OnClick="removeAspirazione" Style="background-color: rgb(240, 93, 93)">Rimuovi Silenziatore in Aspirazione</MudButton>
                     </MudStack>
                 </MudItem>
                 <MudItem xs="10">
-                @if (MostraSilenziatoreAspirazione)
-                {
-                    <PannelloAccessoriConOrdine Tipo="Accessorio.TipoAccessorio.SilAspirazione" />
-                }
+                    <PannelloAccessoriConOrdine Visibile="@MostraSilenziatoreAspirazione" Tipo="Accessorio.TipoAccessorio.SilAspirazione" @ref="AspirazioneSil" />
                 </MudItem>
             </MudGrid>
-            <MudButton OnClick="Send">Conferma Selezione e Invia</MudButton>
+            <MudStack Row>
+            <MudTextField @bind-Value="values.UserSelection.Mail" Label="A che mail inviare il risultato?" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Mail"></MudTextField>
+            <MudButton OnClick="Send" Style="background-color: rgb(74, 246, 133)">Conferma Selezione e Invia</MudButton>
         </MudStack>
-    </CascadingValue>
+    </MudStack>
 </CascadingValue>
 
 
 @code {
     Selection UserSelection = new();
     SQLData UserData = new();
+    PannelloGenerale pg;
+    IBrowserFile progettoSalvato;
+    private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+    private async Task UploadFiles(IBrowserFile file)
+    {
+        progettoSalvato = file;
+        if (file != null)
+        {
+            byte[] bytes = new byte[file.Size];
+            await file.OpenReadStream().ReadAsync(bytes);
+            try
+            {
+                Selection selezioneSalvata = JsonConvert.DeserializeObject<Selection>(Encoding.UTF8.GetString(bytes));
+                if (selezioneSalvata != null)
+                    await CaricaSelezione(selezioneSalvata);
+            }
+            catch
+            {
+
+            }
+        }
+        //TODO upload the files to the server
+    }
+    private MyCascadingValues values = new();
     private PannelloAccessori pa;
     private bool MostraSilenziatoreMandata = false, MostraSilenziatoreAspirazione = false, btnManDis = false, btnAspDis = false;
-    private string butSilMan = "Aggiungi Silenziatore in Mandata", butSilAsp = "Aggiungi Silenziatore in Aspirazione";
+    private PannelloAccessoriConOrdine? Aspirazione, AspirazioneSil, Mandata, MandataSil;
+    public string butSilMan = "Aggiungi Silenziatore in Mandata", butSilAsp = "Aggiungi Silenziatore in Aspirazione";
     protected override async Task OnInitializedAsync()
     {
         base.OnInitialized();
         await UserData.SQLDataLoad();
+        values.UserData = UserData;
+        values.UserSelection = UserSelection;
+        values.ValuesChanged += () => StateHasChanged();
     }
     protected async Task showMandata ()
     {
-        butSilMan = "Cambia Silenziatore in Mandata";
         var parameters = new DialogParameters<DialogSilenziatore>();
-        parameters.Add(x => x.selection, UserSelection);
-        parameters.Add(x => x.data, UserData);
+        parameters.Add(x => x.selection, values.UserSelection);
+        parameters.Add(x => x.data, values.UserData);
         parameters.Add(x => x.tipo, Accessorio.TipoAccessorio.Mandata);
         var dialog = await DialogService.ShowAsync<DialogSilenziatore>("Seleziona Silenziatore in Mandata", parameters);
         var result = await dialog.Result;
-        MostraSilenziatoreMandata = (bool) result.Data;
+        if (result.Data!=null)
+        {
+            butSilMan = "Cambia Silenziatore in Mandata";
+            MostraSilenziatoreMandata = (bool)result.Data;
+            if (MandataSil!=null)
+                MandataSil.Show();
+            StateHasChanged();
+        }
         StateHasChanged();
     }
     protected async Task showAspirazione()
     {
-        butSilMan = "Cambia Silenziatore in Aspirazione";
+        butSilAsp = "Cambia Silenziatore in Aspirazione";
         var parameters = new DialogParameters<DialogSilenziatore>();
-        parameters.Add(x => x.selection, UserSelection);
-        parameters.Add(x => x.data, UserData);
+        parameters.Add(x => x.selection, values.UserSelection);
+        parameters.Add(x => x.data, values.UserData);
         parameters.Add(x => x.tipo, Accessorio.TipoAccessorio.Aspirazione);
         var dialog = await DialogService.ShowAsync<DialogSilenziatore>("Seleziona Silenziatore in Aspirazione", parameters);
         var result = await dialog.Result;
-        MostraSilenziatoreAspirazione = (bool)result.Data;
-        StateHasChanged();
+        if (result.Data!=null)
+        {
+            butSilMan = "Cambia Silenziatore in Mandata";
+            MostraSilenziatoreAspirazione = (bool)result.Data;
+            if (AspirazioneSil!=null)
+                AspirazioneSil.Show();
+            StateHasChanged();
+        }
     }
     protected void removeMandata()
     {
-        UserSelection.SilenziatoreMandata = new();
-        foreach (var item in UserData.Accessori)
+        values.UserSelection.SilenziatoreMandata = null;
+        butSilMan = "Aggiungi Silenziatore in Mandata";
+        foreach (Accessorio item in UserData.Accessori.Where(x => x.TypeOfOptional == Accessorio.TipoAccessorio.SilMandata))
         {
-            if (item.TypeOfOptional.Equals(Accessorio.TipoAccessorio.SilMandata))
-                item.Selected = false;
+            item.Selected = false;
+            item.Qty = 0;
         }
-    }
-    protected void refresh()
-    {
-        pa.Refresh();
+        if (MandataSil!= null)
+            MandataSil.ListaInterna.Clear();
+        MostraSilenziatoreMandata = false;
     }
     protected void removeAspirazione()
     {
-        UserSelection.SilenziatoreAspirazione = new();
-        foreach (var item in UserData.Accessori)
+        values.UserSelection.SilenziatoreAspirazione = null;
+        butSilAsp = "Aggiungi Silenziatore in Aspirazione";
+        foreach (Accessorio item in UserData.Accessori.Where(x => x.TypeOfOptional == Accessorio.TipoAccessorio.SilAspirazione))
         {
-            if (item.TypeOfOptional.Equals(Accessorio.TipoAccessorio.SilAspirazione))
-                item.Selected = false;
+            item.Selected = false;
+            item.Qty = 0;
         }
+        AspirazioneSil.ListaInterna.Clear();
+        MostraSilenziatoreAspirazione = false;
+    }
+    protected async Task CaricaSelezione(Selection selezioneSalvata)
+    {
+        values.UserSelection = selezioneSalvata;
+        values.UserSelection.SelectedSerie = UserData.Serie.Find(x => x.Name.Equals(values.UserSelection.SelectedFan.Serie));
+        values.UserSelection.Caricato = true;
+        pg.defaultSerie = values.UserSelection.SelectedSerie;
+        pg.defaultVentilatore = values.UserSelection.SelectedSerie.DimensionalDatas.Find(x=> x.Model.Equals(values.UserSelection.SelectedFan.Model));
+        string inizioDescrizione = $"{values.UserSelection.SelectedFan.MotorSize} {values.UserSelection.SelectedFan.Kw}";
+        values.UserSelection.SelectedFan.MotoreSelezionato = values.UserData.Motori.Find(x => x.Descrizione.StartsWith(inizioDescrizione));
+        pg.VisualizzaPannelloMotore = true;
+        Mandata.ListaInterna.Clear();
+        Aspirazione.ListaInterna.Clear();
+        foreach(Accessorio acc in values.UserSelection.AccessoriChiocciola)
+        {
+            values.UserData.Accessori.Rimpiazza(acc);
+        }
+        foreach(Accessorio acc in values.UserSelection.AccessoriMandata)
+        {
+            values.UserData.Accessori.Rimpiazza(acc, Mandata.ListaInterna);
+        }
+        foreach(Accessorio acc in values.UserSelection.AccessoriAspirazione)
+        {
+            values.UserData.Accessori.Rimpiazza(acc, Aspirazione.ListaInterna);
+        }
+        if (values.UserSelection.SilenziatoreMandata != null)
+        {
+            MostraSilenziatoreMandata = true;
+            butSilMan = "Cambia Silenziatore in Mandata";
+            MandataSil.Show();
+            foreach (Accessorio acc in values.UserSelection.SilenziatoreMandata.Accessori)
+            {
+                values.UserData.Accessori.Rimpiazza(acc, MandataSil.ListaInterna);
+            }
+        }
+        if (values.UserSelection.SilenziatoreAspirazione != null)
+        {
+            MostraSilenziatoreAspirazione = true;
+            butSilAsp = "Cambia Silenziatore in Aspirazione";
+            AspirazioneSil.Show();
+            foreach (Accessorio acc in values.UserSelection.SilenziatoreAspirazione.Accessori)
+            {
+                values.UserData.Accessori.Rimpiazza(acc, AspirazioneSil.ListaInterna);
+            }
+        }
+        StateHasChanged();
+        await DialogService.ShowMessageBox(
+            "Info",
+            "Caricamento completato!",
+            yesText: "Ok!");
     }
     protected async Task Send()
     {
-        CreazioneJson cs = new(UserSelection, UserData);
-        await cs.Crea();
+        pa.ConfermaAccessori();
+        Aspirazione.ConfermaAccessori();
+        Mandata.ConfermaAccessori();
+        if (values.UserSelection.SilenziatoreMandata != null) MandataSil.ConfermaAccessori();
+        if (values.UserSelection.SilenziatoreAspirazione != null) AspirazioneSil.ConfermaAccessori();
+        CreazioneJson cs = new(values.UserSelection, values.UserData);
+        CADServer.Shared.Common.Models.JobRequest jd = await cs.Crea();
+        var reqString = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(jd, Formatting.Indented));
+        await BlazorDownloadFileService.DownloadFileAsync("save.json", Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(values.UserSelection, Formatting.Indented)));
+        //create new job and send to the executer
+        try
+        {
+            HttpClient client = new();
+            client.BaseAddress = new Uri(Resources.Resource.CADServerURL);
+            using StringContent jsonContent = new(JsonConvert.SerializeObject(jd, Formatting.Indented), Encoding.UTF8, "application/json");
+            using HttpResponseMessage response = await client.PostAsync("Execute/CreateNewJob/", jsonContent);
+            response.EnsureSuccessStatusCode();
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            await BlazorDownloadFileService.DownloadFileAsync($"{jsonResponse}.json", Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(values.UserSelection, Formatting.Indented)));
+            Logger.Info($"Request send Correctly - Response {jsonResponse}");
+        }
+        catch (Exception ex)
+        {
+            Logger.Info($"Request sent KO - Exception message: {ex.Message}");
+        }
     }
 }
 

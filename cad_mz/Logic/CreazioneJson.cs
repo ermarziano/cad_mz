@@ -1,7 +1,6 @@
 ﻿using static cad_mz.Logic.Entities;
 using CADServer.Shared.Common.Models;
-using System.Diagnostics;
-using System.ComponentModel;
+using System.Text.RegularExpressions;
 
 namespace cad_mz.Logic
 {
@@ -9,18 +8,21 @@ namespace cad_mz.Logic
     {
         readonly Selection selection;
         bool haSupporto = true;
-        string modelloBoccaAspirazione = "", connessioneSilenziatore = "";
+        private string modelloBoccaAspirazione = "", connessioneSilenziatore = "", dimensioneFlangia= "", connessioneSilenziatoreMandata = "";
         int numeroFori = -1;
 
         SQLData data;
+        List<string> DatiCaricati = new();
         List<JobCommand> commands;
+        private double estrusioneCavallotto, diametroAlbero, altezzaAsse, diametroForo, diametroPrigionieri, diametroAttacco, diametroMandata;
+
         public CreazioneJson(Selection _selection, SQLData _data)
         {
             selection = _selection;
             data = _data;
             commands = new List<JobCommand>();
         }
-        public async Task Crea()
+        public async Task<JobRequest> Crea()
         {
             //Apri File
             commands.Add(new JobCommand()
@@ -33,26 +35,244 @@ namespace cad_mz.Logic
                 OperationId = 0
             });
             await GeneraVentilatore();
-
+            await CaricaAccessoriAspirazione();
+            await CaricaSilenziatoreAspirazioneEAccessori();
+            await CaricaAccessoriMandata();
+            await CaricaSilenziatoreMandataEAccessori();
+            await CaricaAccessoriChiocciola();
+            ScriviParametroSingolo("Chiocciola.ipt:1", "Rotazione", -1 * selection.Rotazione.Value);
+            SalvaEChiudi();
+            var jobData = new JobRequest()
+            {
+                Commands = commands,
+                Parameters = new ProcessingSettings()
+                {
+                    CADName = CADNames.Inventor,
+                    CreateNewInstance = true,
+                    AppVisible = true,
+                    NotificationSettings = new NotificationSettings()
+                    {
+                        Type = CADServer.Shared.Common.Notification.NotificationType.Email,
+                        ToEmail = selection.Mail
+                    }
+                }
+            };
+            return jobData;
         }
+       
+        #region Accessori
+        private async Task CaricaAccessoriAspirazione()
+        {
+            string connettiA = modelloBoccaAspirazione;
+            foreach (Accessorio accessorio in selection.AccessoriAspirazione)
+            {
+                string nomeNuovoAccessorio = $"{accessorio.Code}.ipt:{accessorio.Id}";
+                DatiDimensionali dati = await SQL.CaricaDatiAccessorio(accessorio.Code, diametroAttacco);
+                dati.Add("NumeroFori", numeroFori);
+                AggiungiEAggancia(connettiA, nomeNuovoAccessorio, "UCSOUT", "UCSIN");
+                ScriviParametri(nomeNuovoAccessorio, dati);
+                connettiA = nomeNuovoAccessorio;
+                connessioneSilenziatore = nomeNuovoAccessorio;
+            }
+        }
+        private async Task CaricaAccessoriMandata()
+        {
+            string connettiA = "Chiocciola.ipt:1";
+            dimensioneFlangia = selection.SelectedFan.DatiChiocciola.Outlet;
+            foreach (Accessorio accessorio in selection.AccessoriMandata)
+            {
+                string nomeNuovoAccessorio = $"{accessorio.Code}.ipt:{accessorio.Id}";
+                DatiDimensionali dati = await SQL.CaricaDatiAccessorio(accessorio.Code, -1, dimensioneFlangia);
+                AggiungiEAggancia(connettiA, nomeNuovoAccessorio);
+                ScriviParametri(nomeNuovoAccessorio , dati);
+                connettiA = nomeNuovoAccessorio;
+                connessioneSilenziatoreMandata = nomeNuovoAccessorio;
+            }
+        }
+        private async Task CaricaSilenziatoreMandataEAccessori()
+        {
+            if (selection.SilenziatoreMandata !=null)
+            {
+                string vecchio = "SilenziatoreMandata.ipt:1", nuovo = string.Empty;
+                AggiungiEAggancia(connessioneSilenziatoreMandata, vecchio);
+                DatiDimensionali dati = await SQL.CaricaDatiSilenziatoreMandata(dimensioneFlangia, selection.SilenziatoreMandata.Codice);
+                diametroMandata = dati.Get("Tram_Flan2_d1");
+                foreach (var Accessorio in selection.SilenziatoreMandata.Accessori)
+                {
+                    nuovo = $"SILM{Accessorio.Code}.ipt:{Accessorio.Id}";
+                    dati = await SQL.CaricaDatiAccessorio(Accessorio.Code, diametroMandata);
+                    dati.Add("NumeroFori", numeroFori);
+                    AggiungiEAggancia(vecchio, nuovo);
+                    ScriviParametri(nuovo, dati);
+                    vecchio = nuovo;
+                }
+            }
+        }
+        private async Task CaricaSilenziatoreAspirazioneEAccessori()
+        {
+            if (selection.SilenziatoreAspirazione!=null)
+            {
+                //Silenziatore e Tramoggia
+                AggiungiEAggancia(connessioneSilenziatore, "SilenziatoreAspirazione.ipt:1");
+                DatiDimensionali dati = await SQL.CaricaDatiSilenziatoreAspirazione(diametroAttacco, selection.SilenziatoreAspirazione.Codice);
+                diametroAttacco = dati.Get("Tram_Fla2_D1");
+                numeroFori = (int)dati.Get("Tram_Fla2_NFori");
+                //Supporto
+                if (selection.SilenziatoreAspirazione.Accessori.Exists(a => a.Code.Equals("SS")))
+                {
+                    var temp = await SQL.CaricaDatiSupporto(selection.SelectedFan.DatiChiocciola.Support, true);
+                    dati.Append(temp.dati);
+                }
+                else
+                {
+                    dati.Add("SupportoRichiesto", 1);
+                }
+                dati.Add("Tram_Fla1_NFori", numeroFori);
+                dati.Add("Tram_L", selection.SilenziatoreAspirazione.LunghezzaTramoggia);
+                ScriviParametri("SilenziatoreAspirazione.ipt:1", dati);
+                string vecchio = "SileniatoreAspirazione.ipt:1", nuovo = string.Empty;
+                foreach (var Accessorio in selection.SilenziatoreAspirazione.Accessori.Where(a => !a.Code.Equals("SS")))
+                {
+                    nuovo = $"SILA{Accessorio.Code}.ipt:{Accessorio.Id}";
+                    dati = await SQL.CaricaDatiAccessorio(Accessorio.Code, diametroAttacco);
+                    dati.Add("NumeroFori", numeroFori);
+                    AggiungiEAggancia(vecchio, nuovo);
+                    ScriviParametri(nuovo, dati);
+                    vecchio = nuovo;
+                }
+            }
+        }
+        private async Task CaricaAccessoriChiocciola()
+        {
+            bool SupportoSilenziatore = selection.SilenziatoreAspirazione!= null && selection.SilenziatoreAspirazione.Accessori.Contiene("SS");
+            int numeroAV = SupportoSilenziatore ? 8 : 6;
+            if (selection.AccessoriChiocciola.Contiene("GC") || selection.AccessoriChiocciola.Contiene("TN"))
+            {
+                if (selection.Esecuzione.Key.Equals("E04"))
+                {
+                    DatiDimensionali dati = await SQL.CaricaGasCaldiTenuta("E04", selection.SelectedFan.MotoreSelezionato.Taglia, selection.SelectedFan.DatiChiocciola.Size);
+                    AggiungiEAggancia("MotoreB3.ipt:1", "reteGC.ipt:1", "UCS1", "UCS1");
+                    double deltaCaldi = dati.Pop("DeltaGasCaldi");
+                    double deltaTenuta = dati.Pop("DeltaTenuta");
+                    double distanza = selection.AccessoriChiocciola.Contiene("GC") ? deltaCaldi : deltaTenuta;
+                    ScriviParametroSingolo("MotoreB3.ipt:1", "DistanzaDaChiocciola", distanza); // sposta motore
+                    ScriviParametroSingolo("Sedia.ipt:1", "EstrusioneCavallotto", dati.Pop("SpostamentoCavallotto") + estrusioneCavallotto); // sposta sedia
+                    dati.Add("profondita", distanza);
+                    dati.Add("AlberoMotore", diametroAlbero);
+                    dati.Add("AltezzaAsse", altezzaAsse);
+                    ScriviParametri("reteGC.ipt:1", dati);
+                }
+                if (selection.Esecuzione.Key.Equals("E05"))
+                {
+                    DatiDimensionali dati = await SQL.CaricaGasCaldiTenuta("E05", selection.SelectedFan.MotoreSelezionato.Taglia, selection.SelectedFan.DatiChiocciola.Size);
+                    AggiungiEAggancia("MotoreB5.ipt:1", "GC_B5.ipt:1", "UCS1", "UCS1");
+                    ScriviParametroSingolo("MotoreB5.ipt:1", "DistanzaDaChiocciola", dati.Get("AltezzaPalafitta")); // sposta motore
+                    dati.Remove("TagliaVentilatore");
+                    dati.Remove("TagliaMotore");
+                    ScriviParametri("GC_B5.ipt:1", dati);
+                }
+            }
+            if (selection.AccessoriChiocciola.Contiene("AV"))
+            {
+                DatiDimensionali dati = await SQL.CaricaAV(selection.SelectedFan.DatiChiocciola.AV);
+                AggiungiEAggancia("Sedia.ipt:1", "AV.ipt:1", "UCSA1", "UCS1");
+                AggiungiEAggancia("Sedia.ipt:1", "AV.ipt:2", "UCSA2", "UCS1");
+                AggiungiEAggancia("Sedia.ipt:1", "AV.ipt:3", "UCSA3", "UCS1");
+                AggiungiEAggancia("Sedia.ipt:1", "AV.ipt:4", "UCSA4", "UCS1");
+                if (selection.AccessoriChiocciola.Contiene("SA"))
+                {
+                    AggiungiEAggancia("Supporto.ipt:1", "AV.ipt:5", "UCSA1", "UCS1");
+                    AggiungiEAggancia("Supporto.ipt:1", "AV.ipt:6", "UCSA2", "UCS1");
+                    if (SupportoSilenziatore)
+                    {
+                        AggiungiEAggancia("SilenziatoreAspirazione.ipt:1", "AV.ipt:7", "UCSA1", "UCS1");
+                        AggiungiEAggancia("SilenziatoreAspirazione.ipt:1", "AV.ipt:8", "UCSA1", "UCS1");
+                    }
+                } else if (SupportoSilenziatore)
+                {
+                    AggiungiEAggancia("SilenziatoreAspirazione.ipt:1", "AV.ipt:5", "UCSA1", "UCS1");
+                    AggiungiEAggancia("SilenziatoreAspirazione.ipt:1", "AV.ipt:6", "UCSA1", "UCS1");
+                }
+                ScriviParametri("AV.ipt:1", dati);
+            }
+            if (selection.AccessoriChiocciola.Contiene("PAV") && selection.Esecuzione.Key.Equals("E04"))
+            {
+
+                if (selection.AccessoriChiocciola.Contiene("SA"))
+                    numeroAV -= 2;
+
+                DatiDimensionali dati = await SQL.CaricaPAV(selection.SelectedFan.DatiChiocciola.PAV);
+                for (int i = 0; i < numeroAV; i++)
+                {
+                    AggiungiEAggancia($"AV.ipt:{i + 1}", $"PAV.ipt:{i + 1}", "UCS2", "UCS1");
+                }
+                ScriviParametri("PAV.ipt:1", dati);
+            }
+            if (selection.AccessoriChiocciola.Contiene("PI"))
+            {
+                ScriviParametroSingolo("Chiocciola.ipt:1", "PortelloA", selection.IsPortelloA());
+                ScriviParametroSingolo("Chiocciola.ipt:1", "PortelloB", !selection.IsPortelloA());
+            } else
+            {
+                ScriviParametroSingolo("Chiocciola.ipt:1", "PortelloA", false);
+                ScriviParametroSingolo("Chiocciola.ipt:1", "PortelloB", false);
+            }
+        }
+        #endregion
+
+        #region CorpoVentilatore
         private async Task GeneraVentilatore()
         {
             switch (selection.Esecuzione.Key)
             {
-                case "E04":
-                    await ScriviSedia($"{selection.SelectedFan.Casing_data.ChairE04}{selection.GetH()}G{selection.SelectedFan.MotoreSelezionato.Taglia:000}");
-                    await ScriviChiocciola(selection.SelectedFan.Casing_data.Code, selection.SelectedFan.Casing_data.Size, selection.SelectedFan.Casing_data.Outlet);
+                case "E01":
+                    await ScriviSedia($"{selection.SelectedFan.DatiChiocciola.ChairOther}{selection.GetH():000}");
+                    await ScriviChiocciola(selection.SelectedFan.DatiChiocciola.Code, selection.SelectedFan.DatiChiocciola.Size, selection.SelectedFan.DatiChiocciola.Outlet);
                     await ScriviSupporto();
-                    await ScriviBoccaAspirazione(haSupporto? "Supporto.ipt:1" : "Chiocciola.ipt:1", haSupporto? "UCS2" : "UCS1");
-                    //ScriviMotore();
+                    //CaricaBoccaAspirazione();
+                    //CaricaMonoblocco();
+                    //break;
+                    break;
+                case "E04":
+                    await ScriviSedia($"{selection.SelectedFan.DatiChiocciola.ChairE04}{selection.GetH()}G{selection.SelectedFan.MotoreSelezionato.Taglia:000}");
+                    await ScriviChiocciola(selection.SelectedFan.DatiChiocciola.Code, selection.SelectedFan.DatiChiocciola.Size, selection.SelectedFan.DatiChiocciola.Outlet);
+                    await ScriviSupporto();
+                    await ScriviBoccaAspirazione(haSupporto ? "Supporto.ipt:1" : "Chiocciola.ipt:1", haSupporto ? "UCS2" : "UCS1");
+                    await ScriviMotore("MotoreB3.ipt:1", selection.SelectedFan.MotoreSelezionato.Codice);
+                    break;
+                case "E05":
+                    await ScriviChiocciola(selection.SelectedFan.DatiChiocciola.CodeE05, selection.SelectedFan.DatiChiocciola.Size, selection.SelectedFan.DatiChiocciola.Outlet);
+                    await ScriviBoccaAspirazione("Chiocciola.ipt:1", "UCS1");
+                    await ScriviMotore("MotoreB5.ipt:1", selection.SelectedFan.MotoreSelezionato.Codice);
                     break;
             }
         }
+        private async Task ScriviMotore(string TipoMotore, string Grandezza)
+        {
+            commands.Add(new()
+            {
+                Method = "ModifyParameter",
+                Params = new Dictionary<string, object>
+                {
+                        { "componentPath", TipoMotore },
+                        { "parameterName", "DistanzaDaChiocciola" },
+                        { "parameterValue", "5" }
+                    },
+                OperationId = commands.Count
+            });
+            DatiDimensionali valori = await SQL.CaricaMotore(Grandezza);
+            diametroAlbero = valori.Get("Dalbero");
+            altezzaAsse = valori.Get("AltezzaAsse");
+            ScriviParametri(TipoMotore, valori);
+        }
         private async Task ScriviBoccaAspirazione(string connessaA, string UCS)
         {
-            List<KeyValuePair<string, double>> valori = await SQL.CaricaBoccaAspirazione(selection.SelectedFan.Casing_data.Mouth_Code);
-            modelloBoccaAspirazione = valori.getValue("HLatoRettilineo") > 0 ? "BoccaASP2.ipt:1" : "BoccaASP1.ipt:1";
-            numeroFori = valori.getValue("HLatoRettilineo") > 0 ? (int) valori.getValue("NumeroPrigionieri") : (int) valori.getValue("NumeroFori");
+            DatiDimensionali valori = await SQL.CaricaBoccaAspirazione(selection.SelectedFan.DatiChiocciola.Mouth_Code);
+            modelloBoccaAspirazione = valori.Get("HLatoRettilineo") > 0 ? "BoccaASP2.ipt:1" : "BoccaASP1.ipt:1";
+            numeroFori = valori.Get("HLatoRettilineo") > 0 ? (int)valori.Get("NumeroPrigionieri") : (int)valori.Get("NumeroFori");
+            diametroPrigionieri = valori.Get("DiametroPosizionePrigionieri");
+            diametroForo = valori.Get("DiametroPosizioneFori");
+            diametroAttacco = diametroPrigionieri > 0 ? diametroPrigionieri : diametroForo;
             AggiungiEAggancia(connessaA, modelloBoccaAspirazione, UCS, "UCSIN");
             ScriviParametri(modelloBoccaAspirazione, valori);
             connessioneSilenziatore = modelloBoccaAspirazione;
@@ -61,7 +281,7 @@ namespace cad_mz.Logic
         {
             if (selection.AccessoriChiocciola.Exists(x => x.Code.Equals("SA") && x.Selected))
             {
-                List<KeyValuePair<string, double>> valori = await SQL.CaricaSupporto(selection.SelectedFan.Casing_data.Support);
+                DatiDimensionali valori = await SQL.CaricaDatiSupporto(selection.SelectedFan.DatiChiocciola.Support, false);
                 ScriviParametri("Supporto.ipt:1", valori);
             }
             else
@@ -80,16 +300,19 @@ namespace cad_mz.Logic
         }
         private async Task ScriviChiocciola(string Codice, int Taglia, string BoccaMandata)
         {
-            List<KeyValuePair<string, double>> valori = await SQL.CaricaDatiChiocciola(Codice, Taglia, BoccaMandata);
+            DatiDimensionali valori = await SQL.CaricaDatiChiocciola(Codice, Taglia, BoccaMandata);
             ScriviParametri("Chiocciola.ipt:1", valori);
         }
-
         private async Task ScriviSedia(string CodiceSedia)
         {
-            List<KeyValuePair<string, double>> valori = await SQL.CaricaDatiSedia(CodiceSedia);
+            DatiDimensionali valori = await SQL.CaricaDatiSedia(CodiceSedia);
+            estrusioneCavallotto = valori.Get("EstrusioneCavallotto");
             ScriviParametri("Sedia.ipt:1", valori);
         }
-        private void AggiungiEAggancia(string componente1, string componente2, string UCSComponente1, string UCSComponente2)
+        #endregion
+
+        #region Generali
+        private void AggiungiEAggancia(string componente1, string componente2, string UCSComponente1 = "UCSOUT", string UCSComponente2 = "UCSIN")
         {
             commands.Add(new JobCommand
             {
@@ -114,22 +337,75 @@ namespace cad_mz.Logic
                 OperationId = commands.Count
             });
         }
-        private void ScriviParametri(string Item, List<KeyValuePair<string, double>> valori)
+        private void ScriviParametri(string Item, DatiDimensionali valori)
         {
-            foreach (var parametro in valori.Where(x => x.Value > 0)) 
+            if (!DatiCaricati.Contains(Item.Split(".ipt")[0]))
             {
-                commands.Add(new()
+                DatiCaricati.Add(Item.Split(".ipt")[0]);
+                foreach (var parametro in valori.dati.Where(x => x.valore > 0))
                 {
-                    Method = "ModifyParameter",
-                    Params = new Dictionary<string, object>
-                    {
-                        { "componentPath", Item },
-                        { "parameterName", parametro.Key },
-                        { "parameterValue", parametro.Value }
-                    },
-                    OperationId = commands.Count
-                });
+                    ScriviParametroSingolo(Item, parametro.nome, parametro.valore);
+                }
             }
         }
+        private void ScriviParametroSingolo(string Item, string Nome, double Valore)
+        {
+            commands.Add(new()
+            {
+                Method = "ModifyParameter",
+                Params = new Dictionary<string, object>
+                    {
+                        { "componentPath", Item },
+                        { "parameterName", Nome },
+                        { "parameterValue", Valore }
+                    },
+                OperationId = commands.Count
+            });
+        }
+        private void ScriviParametroSingolo(string Item, string Nome, bool Valore)
+        {
+            commands.Add(new()
+            {
+                Method = "ModifyParameter",
+                Params = new Dictionary<string, object>
+                    {
+                        { "componentPath", Item },
+                        { "parameterName", Nome },
+                        { "parameterValue", Valore }
+                    },
+                OperationId = commands.Count
+            });
+        }
+        private void SalvaEChiudi()
+        {
+            commands.Add(new()
+            {
+                Method = "Export",
+                Params = new Dictionary<string, object>
+                    {
+                        { "modelNewName", "Export.stp" }
+                    },
+                OperationId = commands.Count
+            });
+            commands.Add(new()
+            {
+                Method = "SaveAs",
+                Params = new Dictionary<string, object>
+                    {
+                        { "modelNewName", $"{selection.Esecuzione.Key}.iam" }
+                    },
+                OperationId = commands.Count
+            });
+            commands.Add(new()
+            {
+                Method = "Close",
+                Params = new Dictionary<string, object>
+                    {
+                        { "saveChanges", false }
+                    },
+                OperationId = commands.Count
+            });
+        }
+        #endregion
     }
 }

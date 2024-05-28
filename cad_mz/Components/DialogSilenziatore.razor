@@ -2,10 +2,10 @@
 
 <MudDialog>
     <DialogContent>
-        <MudSelect @bind-Value=@silenziatoreSelezionato T="(string, int)">
+        <MudSelect @bind-Value=@silenziatoreSelezionato T="Silenziatore">
             @foreach (var silenziatorePossibile in listaFiltrata)
             {
-                <MudSelectItem Value="@silenziatorePossibile">@silenziatorePossibile.Codice - @silenziatorePossibile.Lunghezza mm</MudSelectItem>
+                <MudSelectItem Value="@silenziatorePossibile">@silenziatorePossibile.Codice - Tramoggia @silenziatorePossibile.LunghezzaTramoggia mm</MudSelectItem>
             }
         </MudSelect>
     </DialogContent>
@@ -20,8 +20,8 @@
     [Parameter] public Selection selection { get; set; } = null!;
     [Parameter] public SQLData data { get; set; } = null!;
     [Parameter] public Accessorio.TipoAccessorio tipo { get; set; }
-    private (string, int) silenziatoreSelezionato;
-    private List<(string Codice, int Lunghezza)> listaFiltrata = new()!;
+    private Silenziatore silenziatoreSelezionato;
+    private List<Silenziatore> listaFiltrata = new()!;
     void Submit()
     {
         if (tipo == Accessorio.TipoAccessorio.Aspirazione)
@@ -34,13 +34,13 @@
 
     protected override void OnInitialized()
     {
-        string bocca = tipo.Equals(Accessorio.TipoAccessorio.Mandata) ? selection.SelectedFan.Casing_data.Outlet : selection.SelectedFan.Casing_data.Inlet;
-        listaFiltrata = data.Silenziatori.Find(x => x.Bocca.Equals(bocca)).Item2;
+        string bocca = tipo.Equals(Accessorio.TipoAccessorio.Mandata) ? selection.SelectedFan.DatiChiocciola.Outlet : selection.SelectedFan.DatiChiocciola.Inlet;
+        listaFiltrata = data.Silenziatori.Where(x => x.DimensioneBocca.Equals(bocca)).ToList();
         if (tipo == Accessorio.TipoAccessorio.Aspirazione)
             silenziatoreSelezionato = selection.SilenziatoreAspirazione;
         else
             silenziatoreSelezionato = selection.SilenziatoreMandata;
-        if (silenziatoreSelezionato == default)
+        if (silenziatoreSelezionato == null && listaFiltrata.Count>0)
             silenziatoreSelezionato = listaFiltrata.First();
     }
 }

@@ -1,4 +1,5 @@
 ﻿@using System.Text
+@using cad_mz.Logic
 @using static cad_mz.Logic.Entities.Accessorio
 
 <MudPaper Style="padding: 4px">
@@ -8,7 +9,7 @@
         </MudItem>
         <MudItem xs="12">
             <MudStack Row Style="flex-wrap: wrap;">
-                 @foreach (var acc in UserData.Accessori.Where(x => x.TypeOfOptional.Equals(TipoAccessorio.Chiocciola)))
+                 @foreach (var acc in values.UserData.Accessori.Where(x => x.TypeOfOptional.Equals(TipoAccessorio.Chiocciola)))
                 {
                     <SelettoreAccessorio Acc="acc" Ts="SelettoreAccessorio.TipoSelettore.Check" reload="@((args)=>ControllaEsclusioni(acc, args.Item1, args.Item2))" />
                 }
@@ -17,12 +18,20 @@
     </MudGrid>
 </MudPaper>   
 @code {
-    [CascadingParameter] Selection UserSelection { get; set; } = new()!;
-    [CascadingParameter] SQLData UserData { get; set; } = new()!;
+    [CascadingParameter] MyCascadingValues values { get; set; } = new()!;
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
     protected override void OnParametersSet()
     {
-        base.OnInitialized();
+        base.OnParametersSet();
+        if (values.UserSelection.SelectedFan.DatiChiocciola.Support_Mandatory)
+        {
+            values.UserData.Accessori.Find(x => x.Code.Equals("SA")).Selected = true;
+            values.UserData.Accessori.Find(x => x.Code.Equals("SA")).Disabled = true;
+        }
+        if ((values.UserSelection.Esecuzione.Key != null) && (values.UserSelection.Esecuzione.Key.Equals("E01")))
+        {
+            values.UserData.Accessori.Find(x => x.Code.Equals("SA")).Disabled = true;
+        }
         StateHasChanged();
     }
     protected void ControllaEsclusioni(Accessorio acc, bool info, int qty)
@@ -30,38 +39,34 @@
         switch (acc.Code)
         {
             case "AV":
-                UserData.Accessori.Find(x => x.Code.Equals("SA")).Disabled = info;
-                UserData.Accessori.Find(x => x.Code.Equals("SA")).Selected = info;
+                values.UserData.Accessori.Find(x => x.Code.Equals("SA")).Disabled = info;
+                values.UserData.Accessori.Find(x => x.Code.Equals("SA")).Selected = info;
                 break;
             case "PAV":
-                UserData.Accessori.Find(x => x.Code.Equals("SA")).Disabled = info;
-                UserData.Accessori.Find(x => x.Code.Equals("SA")).Selected = info;
-                UserData.Accessori.Find(x => x.Code.Equals("AV")).Disabled = info;
-                UserData.Accessori.Find(x => x.Code.Equals("AV")).Selected = info;
+                values.UserData.Accessori.Find(x => x.Code.Equals("SA")).Disabled = info;
+                values.UserData.Accessori.Find(x => x.Code.Equals("SA")).Selected = info;
+                values.UserData.Accessori.Find(x => x.Code.Equals("AV")).Disabled = info;
+                values.UserData.Accessori.Find(x => x.Code.Equals("AV")).Selected = info;
                 break;
             case "TN":
-                if (UserSelection.SelectedFan.MotorSize.Contains("71"))
+                if (values.UserSelection.SelectedFan.MotorSize.Contains("71"))
                 {
-                    UserData.Accessori.Find(x => x.Code.Equals("GC")).Selected = !info;
+                    values.UserData.Accessori.Find(x => x.Code.Equals("GC")).Selected = !info;
                 }
                 break;
             case "GC":
-                if (UserSelection.SelectedFan.MotorSize.Contains("71"))
+                if (values.UserSelection.SelectedFan.MotorSize.Contains("71"))
                 {
-                    UserData.Accessori.Find(x => x.Code.Equals("TN")).Selected = !info;
+                    values.UserData.Accessori.Find(x => x.Code.Equals("TN")).Selected = !info;
                 }
                 break;
             default:
                 break;
         }
     }
-    public void Refresh()
+    public void ConfermaAccessori()
     {
-        if (UserSelection.SelectedFan.Casing_data.Support_Mandatory)
-        {
-            UserData.Accessori.Find(x => x.Code.Equals("SA")).Selected = true;
-            UserData.Accessori.Find(x => x.Code.Equals("SA")).Disabled = true;
-        }
+        values.UserSelection.AccessoriChiocciola = values.UserData.Accessori.Where(x => x.Selected && x.TypeOfOptional == TipoAccessorio.Chiocciola).ToList();
     }
 }
 

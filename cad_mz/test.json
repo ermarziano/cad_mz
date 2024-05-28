@@ -1,0 +1,2031 @@
+{
+  "Commands": [
+    {
+      "Method": "Open",
+      "Params": {
+        "modelName": "PercorsoE04.iam"
+      },
+      "OperationId": 0
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Sedia.ipt:1",
+        "parameterName": "dimensioneL",
+        "parameterValue": 40.0
+      },
+      "OperationId": 1
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Sedia.ipt:1",
+        "parameterName": "spessoreL",
+        "parameterValue": 4.0
+      },
+      "OperationId": 2
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Sedia.ipt:1",
+        "parameterName": "altezzaAsse",
+        "parameterValue": 560.0
+      },
+      "OperationId": 3
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Sedia.ipt:1",
+        "parameterName": "BaseSenzaL",
+        "parameterValue": 292.0
+      },
+      "OperationId": 4
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Sedia.ipt:1",
+        "parameterName": "EstrusioneL",
+        "parameterValue": 345.0
+      },
+      "OperationId": 5
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Sedia.ipt:1",
+        "parameterName": "Dforo",
+        "parameterValue": 12.0
+      },
+      "OperationId": 6
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Sedia.ipt:1",
+        "parameterName": "posForo",
+        "parameterValue": 64.0
+      },
+      "OperationId": 7
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Sedia.ipt:1",
+        "parameterName": "InterasseForatura",
+        "parameterValue": 337.0
+      },
+      "OperationId": 8
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Sedia.ipt:1",
+        "parameterName": "IntFori",
+        "parameterValue": 237.0
+      },
+      "OperationId": 9
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Sedia.ipt:1",
+        "parameterName": "LarghezzaCavallotto",
+        "parameterValue": 299.9
+      },
+      "OperationId": 10
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Sedia.ipt:1",
+        "parameterName": "tagliaMotore",
+        "parameterValue": 132.0
+      },
+      "OperationId": 11
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Sedia.ipt:1",
+        "parameterName": "EstrusioneCavallotto",
+        "parameterValue": 345.0
+      },
+      "OperationId": 12
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Sedia.ipt:1",
+        "parameterName": "AltezzaMontanti",
+        "parameterValue": 760.0
+      },
+      "OperationId": 13
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Chiocciola.ipt:1",
+        "parameterName": "dim_X",
+        "parameterValue": 321.0
+      },
+      "OperationId": 14
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Chiocciola.ipt:1",
+        "parameterName": "dim_Y",
+        "parameterValue": 320.0
+      },
+      "OperationId": 15
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Chiocciola.ipt:1",
+        "parameterName": "dim_Z",
+        "parameterValue": 895.0
+      },
+      "OperationId": 16
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Chiocciola.ipt:1",
+        "parameterName": "dim_W",
+        "parameterValue": 775.0
+      },
+      "OperationId": 17
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Chiocciola.ipt:1",
+        "parameterName": "Scalino",
+        "parameterValue": 25.0
+      },
+      "OperationId": 18
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Chiocciola.ipt:1",
+        "parameterName": "DiametroForoGirante",
+        "parameterValue": 475.0
+      },
+      "OperationId": 19
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Chiocciola.ipt:1",
+        "parameterName": "DiametroDisco",
+        "parameterValue": 535.0
+      },
+      "OperationId": 20
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Chiocciola.ipt:1",
+        "parameterName": "DiametroPrigionieriForo",
+        "parameterValue": 497.0
+      },
+      "OperationId": 21
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Chiocciola.ipt:1",
+        "parameterName": "NumeroPrigionieri",
+        "parameterValue": 8.0
+      },
+      "OperationId": 22
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Chiocciola.ipt:1",
+        "parameterName": "SpessoreDisco",
+        "parameterValue": 5.0
+      },
+      "OperationId": 23
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Chiocciola.ipt:1",
+        "parameterName": "bocca_a",
+        "parameterValue": 361.0
+      },
+      "OperationId": 24
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Chiocciola.ipt:1",
+        "parameterName": "bocca_b",
+        "parameterValue": 256.0
+      },
+      "OperationId": 25
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Chiocciola.ipt:1",
+        "parameterName": "bocca_a1",
+        "parameterValue": 405.0
+      },
+      "OperationId": 26
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Chiocciola.ipt:1",
+        "parameterName": "bocca_a2",
+        "parameterValue": 441.0
+      },
+      "OperationId": 27
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Chiocciola.ipt:1",
+        "parameterName": "bocca_N1",
+        "parameterValue": 1.0
+      },
+      "OperationId": 28
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Chiocciola.ipt:1",
+        "parameterName": "bocca_N2",
+        "parameterValue": 2.0
+      },
+      "OperationId": 29
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Chiocciola.ipt:1",
+        "parameterName": "bocca_Passo",
+        "parameterValue": 125.0
+      },
+      "OperationId": 30
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Chiocciola.ipt:1",
+        "parameterName": "bocca_phi",
+        "parameterValue": 12.0
+      },
+      "OperationId": 31
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Chiocciola.ipt:1",
+        "parameterName": "bocca_E",
+        "parameterValue": 4.0
+      },
+      "OperationId": 32
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Supporto.ipt:1",
+        "parameterName": "DForoPerPassaggioGirante",
+        "parameterValue": 475.0
+      },
+      "OperationId": 33
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Supporto.ipt:1",
+        "parameterName": "HSupporto",
+        "parameterValue": 560.0
+      },
+      "OperationId": 34
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Supporto.ipt:1",
+        "parameterName": "LarghezzaSupporto",
+        "parameterValue": 561.0
+      },
+      "OperationId": 35
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Supporto.ipt:1",
+        "parameterName": "SpessoreLamiera",
+        "parameterValue": 2.5
+      },
+      "OperationId": 36
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Supporto.ipt:1",
+        "parameterName": "InterasseFori",
+        "parameterValue": 497.0
+      },
+      "OperationId": 37
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Supporto.ipt:1",
+        "parameterName": "DForo",
+        "parameterValue": 12.5
+      },
+      "OperationId": 38
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Supporto.ipt:1",
+        "parameterName": "NFori",
+        "parameterValue": 8.0
+      },
+      "OperationId": 39
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Supporto.ipt:1",
+        "parameterName": "LarghezzaSpallaSupporto",
+        "parameterValue": 53.0
+      },
+      "OperationId": 40
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Supporto.ipt:1",
+        "parameterName": "InterasseForiBase",
+        "parameterValue": 495.0
+      },
+      "OperationId": 41
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Supporto.ipt:1",
+        "parameterName": "DistForoBase",
+        "parameterValue": 16.0
+      },
+      "OperationId": 42
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Supporto.ipt:1",
+        "parameterName": "PosizioneForoBase",
+        "parameterValue": 23.0
+      },
+      "OperationId": 43
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoBoccaASP2.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 44
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "Supporto.ipt:1",
+        "componentPath2": "BoccaASP2.ipt:1",
+        "coordinateSystemName1": "UCS2",
+        "coordinateSystemName2": "UCSIN"
+      },
+      "OperationId": 45
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "BoccaASP2.ipt:1",
+        "parameterName": "DiametroInternoControflangiaEsterna",
+        "parameterValue": 455.0
+      },
+      "OperationId": 46
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "BoccaASP2.ipt:1",
+        "parameterName": "DiametroPosizioneFori",
+        "parameterValue": 497.0
+      },
+      "OperationId": 47
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "BoccaASP2.ipt:1",
+        "parameterName": "DiametroEsterno",
+        "parameterValue": 535.0
+      },
+      "OperationId": 48
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "BoccaASP2.ipt:1",
+        "parameterName": "HLatoRettilineo",
+        "parameterValue": 49.5
+      },
+      "OperationId": 49
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "BoccaASP2.ipt:1",
+        "parameterName": "HBocca",
+        "parameterValue": 76.0
+      },
+      "OperationId": 50
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "BoccaASP2.ipt:1",
+        "parameterName": "SpessoreBocca",
+        "parameterValue": 3.0
+      },
+      "OperationId": 51
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "BoccaASP2.ipt:1",
+        "parameterName": "DiametroForo",
+        "parameterValue": 12.5
+      },
+      "OperationId": 52
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "BoccaASP2.ipt:1",
+        "parameterName": "NumeroFori",
+        "parameterValue": 8.0
+      },
+      "OperationId": 53
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "BoccaASP2.ipt:1",
+        "parameterName": "Dislivello",
+        "parameterValue": 10.0
+      },
+      "OperationId": 54
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "BoccaASP2.ipt:1",
+        "parameterName": "NumeroPrigionieri",
+        "parameterValue": 8.0
+      },
+      "OperationId": 55
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "BoccaASP2.ipt:1",
+        "parameterName": "DiametroPrigioniero",
+        "parameterValue": 8.0
+      },
+      "OperationId": 56
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "BoccaASP2.ipt:1",
+        "parameterName": "HPrigioniero",
+        "parameterValue": 25.0
+      },
+      "OperationId": 57
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "BoccaASP2.ipt:1",
+        "parameterName": "DiametroInternoControflangiaInterna",
+        "parameterValue": 360.0
+      },
+      "OperationId": 58
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "BoccaASP2.ipt:1",
+        "parameterName": "DiametroPosizionePrigionieri",
+        "parameterValue": 405.0
+      },
+      "OperationId": 59
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "BoccaASP2.ipt:1",
+        "parameterName": "DiametroEsternoControflangiaInterna",
+        "parameterValue": 440.0
+      },
+      "OperationId": 60
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "MotoreB3.ipt:1",
+        "parameterName": "DistanzaDaChiocciola",
+        "parameterValue": "5"
+      },
+      "OperationId": 61
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "MotoreB3.ipt:1",
+        "parameterName": "AltezzaAsse",
+        "parameterValue": 132.0
+      },
+      "OperationId": 62
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "MotoreB3.ipt:1",
+        "parameterName": "LMot",
+        "parameterValue": 377.0
+      },
+      "OperationId": 63
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "MotoreB3.ipt:1",
+        "parameterName": "Dalbero",
+        "parameterValue": 38.0
+      },
+      "OperationId": 64
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "MotoreB3.ipt:1",
+        "parameterName": "Lalbero",
+        "parameterValue": 80.0
+      },
+      "OperationId": 65
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "MotoreB3.ipt:1",
+        "parameterName": "InizioPiede",
+        "parameterValue": 69.0
+      },
+      "OperationId": 66
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "MotoreB3.ipt:1",
+        "parameterName": "LunghezzaPiedeEstrusione",
+        "parameterValue": 218.0
+      },
+      "OperationId": 67
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "MotoreB3.ipt:1",
+        "parameterName": "LarghezzaPiedeEstrusione",
+        "parameterValue": 256.0
+      },
+      "OperationId": 68
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "MotoreB3.ipt:1",
+        "parameterName": "Dforo",
+        "parameterValue": 12.0
+      },
+      "OperationId": 69
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "MotoreB3.ipt:1",
+        "parameterName": "PosForo",
+        "parameterValue": 89.0
+      },
+      "OperationId": 70
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "MotoreB3.ipt:1",
+        "parameterName": "InterassePosForo",
+        "parameterValue": 190.0
+      },
+      "OperationId": 71
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "MotoreB3.ipt:1",
+        "parameterName": "Int1Foro",
+        "parameterValue": 140.0
+      },
+      "OperationId": 72
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "MotoreB3.ipt:1",
+        "parameterName": "Int2Foro",
+        "parameterValue": 178.0
+      },
+      "OperationId": 73
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "MotoreB3.ipt:1",
+        "parameterName": "LarghezzaPiede",
+        "parameterValue": 46.0
+      },
+      "OperationId": 74
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "MotoreB3.ipt:1",
+        "parameterName": "DforaturaB5",
+        "parameterValue": 265.0
+      },
+      "OperationId": 75
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "MotoreB3.ipt:1",
+        "parameterName": "DforoB5",
+        "parameterValue": 14.5
+      },
+      "OperationId": 76
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "MotoreB3.ipt:1",
+        "parameterName": "AngoloForoB5",
+        "parameterValue": 45.0
+      },
+      "OperationId": 77
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "MotoreB3.ipt:1",
+        "parameterName": "NForiFlangiaB5",
+        "parameterValue": 4.0
+      },
+      "OperationId": 78
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "MotoreB3.ipt:1",
+        "parameterName": "DFlangiaB5",
+        "parameterValue": 300.0
+      },
+      "OperationId": 79
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "MotoreB3.ipt:1",
+        "parameterName": "DestCentraggio",
+        "parameterValue": 230.0
+      },
+      "OperationId": 80
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoCFA.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 81
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "BoccaASP2.ipt:1",
+        "componentPath2": "CFA.ipt:1",
+        "coordinateSystemName1": "UCSOUT",
+        "coordinateSystemName2": "UCSIN"
+      },
+      "OperationId": 82
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "CFA.ipt:1",
+        "parameterName": "d",
+        "parameterValue": 360.0
+      },
+      "OperationId": 83
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "CFA.ipt:1",
+        "parameterName": "d1",
+        "parameterValue": 405.0
+      },
+      "OperationId": 84
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "CFA.ipt:1",
+        "parameterName": "d2",
+        "parameterValue": 440.0
+      },
+      "OperationId": 85
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "CFA.ipt:1",
+        "parameterName": "phi",
+        "parameterValue": 12.0
+      },
+      "OperationId": 86
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "CFA.ipt:1",
+        "parameterName": "E1",
+        "parameterValue": 4.0
+      },
+      "OperationId": 87
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "CFA.ipt:1",
+        "parameterName": "NumeroFori",
+        "parameterValue": 8.0
+      },
+      "OperationId": 88
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoGA3.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 89
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "CFA.ipt:1",
+        "componentPath2": "GA3.ipt:1",
+        "coordinateSystemName1": "UCSOUT",
+        "coordinateSystemName2": "UCSIN"
+      },
+      "OperationId": 90
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "GA3.ipt:1",
+        "parameterName": "d",
+        "parameterValue": 355.0
+      },
+      "OperationId": 91
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "GA3.ipt:1",
+        "parameterName": "d1",
+        "parameterValue": 405.0
+      },
+      "OperationId": 92
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "GA3.ipt:1",
+        "parameterName": "d2",
+        "parameterValue": 445.0
+      },
+      "OperationId": 93
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "GA3.ipt:1",
+        "parameterName": "phi",
+        "parameterValue": 12.0
+      },
+      "OperationId": 94
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "GA3.ipt:1",
+        "parameterName": "H1",
+        "parameterValue": 145.0
+      },
+      "OperationId": 95
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "GA3.ipt:1",
+        "parameterName": "H2",
+        "parameterValue": 170.0
+      },
+      "OperationId": 96
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "GA3.ipt:1",
+        "parameterName": "NumeroFori",
+        "parameterValue": 8.0
+      },
+      "OperationId": 97
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoSilenziatoreApirazione.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 98
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "GA3.ipt:1",
+        "componentPath2": "SilenziatoreApirazione.ipt:1",
+        "coordinateSystemName1": "UCSOUT",
+        "coordinateSystemName2": "UCSIN"
+      },
+      "OperationId": 99
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SilenziatoreAspirazione.ipt:1",
+        "parameterName": "Tram_Fla1_D",
+        "parameterValue": 360.0
+      },
+      "OperationId": 100
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SilenziatoreAspirazione.ipt:1",
+        "parameterName": "Tram_Fla1_D1",
+        "parameterValue": 405.0
+      },
+      "OperationId": 101
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SilenziatoreAspirazione.ipt:1",
+        "parameterName": "Tram_Fla1_D2",
+        "parameterValue": 440.0
+      },
+      "OperationId": 102
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SilenziatoreAspirazione.ipt:1",
+        "parameterName": "Tram_Fla1_phi",
+        "parameterValue": 12.0
+      },
+      "OperationId": 103
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SilenziatoreAspirazione.ipt:1",
+        "parameterName": "Tram_Fla1_E",
+        "parameterValue": 4.0
+      },
+      "OperationId": 104
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SilenziatoreAspirazione.ipt:1",
+        "parameterName": "Tram_Fla2_D",
+        "parameterValue": 500.0
+      },
+      "OperationId": 105
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SilenziatoreAspirazione.ipt:1",
+        "parameterName": "Tram_Fla2_D1",
+        "parameterValue": 551.0
+      },
+      "OperationId": 106
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SilenziatoreAspirazione.ipt:1",
+        "parameterName": "Tram_Fla2_D2",
+        "parameterValue": 700.0
+      },
+      "OperationId": 107
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SilenziatoreAspirazione.ipt:1",
+        "parameterName": "Tram_Fla2_NFori",
+        "parameterValue": 12.0
+      },
+      "OperationId": 108
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SilenziatoreAspirazione.ipt:1",
+        "parameterName": "Tram_Fla2_phi",
+        "parameterValue": 8.0
+      },
+      "OperationId": 109
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SilenziatoreAspirazione.ipt:1",
+        "parameterName": "Sil_L",
+        "parameterValue": 1000.0
+      },
+      "OperationId": 110
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SilenziatoreAspirazione.ipt:1",
+        "parameterName": "Sup_Altezza",
+        "parameterValue": 560.0
+      },
+      "OperationId": 111
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SilenziatoreAspirazione.ipt:1",
+        "parameterName": "Sup_Spessore",
+        "parameterValue": 2.5
+      },
+      "OperationId": 112
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SilenziatoreAspirazione.ipt:1",
+        "parameterName": "Sup_LarghezzaSpallaSupporto",
+        "parameterValue": 53.0
+      },
+      "OperationId": 113
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SilenziatoreAspirazione.ipt:1",
+        "parameterName": "Sup_InterasseForoBase",
+        "parameterValue": 495.0
+      },
+      "OperationId": 114
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SilenziatoreAspirazione.ipt:1",
+        "parameterName": "Sup_DistForoBase",
+        "parameterValue": 16.0
+      },
+      "OperationId": 115
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SilenziatoreAspirazione.ipt:1",
+        "parameterName": "Sup_PosizioneForoBase",
+        "parameterValue": 23.0
+      },
+      "OperationId": 116
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SilenziatoreAspirazione.ipt:1",
+        "parameterName": "SupportoRichiesto",
+        "parameterValue": 1.0
+      },
+      "OperationId": 117
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SilenziatoreAspirazione.ipt:1",
+        "parameterName": "Tram_Fla1_NFori",
+        "parameterValue": 12.0
+      },
+      "OperationId": 118
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SilenziatoreAspirazione.ipt:1",
+        "parameterName": "Tram_L",
+        "parameterValue": 550.0
+      },
+      "OperationId": 119
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoSILACOL.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 120
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "SileniatoreAspirazione.ipt:1",
+        "componentPath2": "SILACOL.ipt:1",
+        "coordinateSystemName1": "UCSOUT",
+        "coordinateSystemName2": "UCSIN"
+      },
+      "OperationId": 121
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SILACOL.ipt:1",
+        "parameterName": "d",
+        "parameterValue": 500.0
+      },
+      "OperationId": 122
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SILACOL.ipt:1",
+        "parameterName": "d1",
+        "parameterValue": 551.0
+      },
+      "OperationId": 123
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SILACOL.ipt:1",
+        "parameterName": "d2",
+        "parameterValue": 585.0
+      },
+      "OperationId": 124
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SILACOL.ipt:1",
+        "parameterName": "phi",
+        "parameterValue": 14.0
+      },
+      "OperationId": 125
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SILACOL.ipt:1",
+        "parameterName": "H1",
+        "parameterValue": 120.0
+      },
+      "OperationId": 126
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SILACOL.ipt:1",
+        "parameterName": "NumeroFori",
+        "parameterValue": 12.0
+      },
+      "OperationId": 127
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoSILAGA6.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 128
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "SILACOL.ipt:1",
+        "componentPath2": "SILAGA6.ipt:1",
+        "coordinateSystemName1": "UCSOUT",
+        "coordinateSystemName2": "UCSIN"
+      },
+      "OperationId": 129
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SILAGA6.ipt:1",
+        "parameterName": "d",
+        "parameterValue": 500.0
+      },
+      "OperationId": 130
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SILAGA6.ipt:1",
+        "parameterName": "d1",
+        "parameterValue": 551.0
+      },
+      "OperationId": 131
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SILAGA6.ipt:1",
+        "parameterName": "d2",
+        "parameterValue": 590.0
+      },
+      "OperationId": 132
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SILAGA6.ipt:1",
+        "parameterName": "phi",
+        "parameterValue": 14.0
+      },
+      "OperationId": 133
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SILAGA6.ipt:1",
+        "parameterName": "H1",
+        "parameterValue": 145.0
+      },
+      "OperationId": 134
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SILAGA6.ipt:1",
+        "parameterName": "H2",
+        "parameterValue": 170.0
+      },
+      "OperationId": 135
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SILAGA6.ipt:1",
+        "parameterName": "NumeroFori",
+        "parameterValue": 12.0
+      },
+      "OperationId": 136
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoCFP.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 137
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "Chiocciola.ipt:1",
+        "componentPath2": "CFP.ipt:1",
+        "coordinateSystemName1": "UCSOUT",
+        "coordinateSystemName2": "UCSIN"
+      },
+      "OperationId": 138
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "CFP.ipt:1",
+        "parameterName": "a",
+        "parameterValue": 361.0
+      },
+      "OperationId": 139
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "CFP.ipt:1",
+        "parameterName": "b",
+        "parameterValue": 256.0
+      },
+      "OperationId": 140
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "CFP.ipt:1",
+        "parameterName": "a1",
+        "parameterValue": 405.0
+      },
+      "OperationId": 141
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "CFP.ipt:1",
+        "parameterName": "b1",
+        "parameterValue": 300.0
+      },
+      "OperationId": 142
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "CFP.ipt:1",
+        "parameterName": "a2",
+        "parameterValue": 441.0
+      },
+      "OperationId": 143
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "CFP.ipt:1",
+        "parameterName": "b2",
+        "parameterValue": 336.0
+      },
+      "OperationId": 144
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "CFP.ipt:1",
+        "parameterName": "N1",
+        "parameterValue": 1.0
+      },
+      "OperationId": 145
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "CFP.ipt:1",
+        "parameterName": "N2",
+        "parameterValue": 2.0
+      },
+      "OperationId": 146
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "CFP.ipt:1",
+        "parameterName": "Passo",
+        "parameterValue": 125.0
+      },
+      "OperationId": 147
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "CFP.ipt:1",
+        "parameterName": "phi",
+        "parameterValue": 12.0
+      },
+      "OperationId": 148
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "CFP.ipt:1",
+        "parameterName": "E_Flangia",
+        "parameterValue": 4.0
+      },
+      "OperationId": 149
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoGP6.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 150
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "CFP.ipt:1",
+        "componentPath2": "GP6.ipt:1",
+        "coordinateSystemName1": "UCSOUT",
+        "coordinateSystemName2": "UCSIN"
+      },
+      "OperationId": 151
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "GP6.ipt:1",
+        "parameterName": "a",
+        "parameterValue": 361.0
+      },
+      "OperationId": 152
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "GP6.ipt:1",
+        "parameterName": "b",
+        "parameterValue": 256.0
+      },
+      "OperationId": 153
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "GP6.ipt:1",
+        "parameterName": "a1",
+        "parameterValue": 405.0
+      },
+      "OperationId": 154
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "GP6.ipt:1",
+        "parameterName": "b1",
+        "parameterValue": 300.0
+      },
+      "OperationId": 155
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "GP6.ipt:1",
+        "parameterName": "a2",
+        "parameterValue": 441.0
+      },
+      "OperationId": 156
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "GP6.ipt:1",
+        "parameterName": "b2",
+        "parameterValue": 336.0
+      },
+      "OperationId": 157
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "GP6.ipt:1",
+        "parameterName": "N1",
+        "parameterValue": 1.0
+      },
+      "OperationId": 158
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "GP6.ipt:1",
+        "parameterName": "N2",
+        "parameterValue": 2.0
+      },
+      "OperationId": 159
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "GP6.ipt:1",
+        "parameterName": "Passo",
+        "parameterValue": 125.0
+      },
+      "OperationId": 160
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "GP6.ipt:1",
+        "parameterName": "phi",
+        "parameterValue": 10.0
+      },
+      "OperationId": 161
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "GP6.ipt:1",
+        "parameterName": "H1",
+        "parameterValue": 180.0
+      },
+      "OperationId": 162
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoSilenziatoreMandata.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 163
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "GP6.ipt:1",
+        "componentPath2": "SilenziatoreMandata.ipt:1",
+        "coordinateSystemName1": "UCSOUT",
+        "coordinateSystemName2": "UCSIN"
+      },
+      "OperationId": 164
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoSILMCFA.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 165
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "SilenziatoreMandata.ipt:1",
+        "componentPath2": "SILMCFA.ipt:1",
+        "coordinateSystemName1": "UCSOUT",
+        "coordinateSystemName2": "UCSIN"
+      },
+      "OperationId": 166
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SILMCFA.ipt:1",
+        "parameterName": "d",
+        "parameterValue": 505.0
+      },
+      "OperationId": 167
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SILMCFA.ipt:1",
+        "parameterName": "d1",
+        "parameterValue": 551.0
+      },
+      "OperationId": 168
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SILMCFA.ipt:1",
+        "parameterName": "d2",
+        "parameterValue": 585.0
+      },
+      "OperationId": 169
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SILMCFA.ipt:1",
+        "parameterName": "phi",
+        "parameterValue": 14.0
+      },
+      "OperationId": 170
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SILMCFA.ipt:1",
+        "parameterName": "E1",
+        "parameterValue": 4.0
+      },
+      "OperationId": 171
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SILMCFA.ipt:1",
+        "parameterName": "NumeroFori",
+        "parameterValue": 12.0
+      },
+      "OperationId": 172
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoSILMCOL.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 173
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "SILMCFA.ipt:1",
+        "componentPath2": "SILMCOL.ipt:1",
+        "coordinateSystemName1": "UCSOUT",
+        "coordinateSystemName2": "UCSIN"
+      },
+      "OperationId": 174
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SILMCOL.ipt:1",
+        "parameterName": "d",
+        "parameterValue": 500.0
+      },
+      "OperationId": 175
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SILMCOL.ipt:1",
+        "parameterName": "d1",
+        "parameterValue": 551.0
+      },
+      "OperationId": 176
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SILMCOL.ipt:1",
+        "parameterName": "d2",
+        "parameterValue": 585.0
+      },
+      "OperationId": 177
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SILMCOL.ipt:1",
+        "parameterName": "phi",
+        "parameterValue": 14.0
+      },
+      "OperationId": 178
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SILMCOL.ipt:1",
+        "parameterName": "H1",
+        "parameterValue": 120.0
+      },
+      "OperationId": 179
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "SILMCOL.ipt:1",
+        "parameterName": "NumeroFori",
+        "parameterValue": 12.0
+      },
+      "OperationId": 180
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoreteGC.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 181
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "MotoreB3.ipt:1",
+        "componentPath2": "reteGC.ipt:1",
+        "coordinateSystemName1": "UCS1",
+        "coordinateSystemName2": "UCS1"
+      },
+      "OperationId": 182
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "MotoreB3.ipt:1",
+        "parameterName": "DistanzaDaChiocciola",
+        "parameterValue": 40.0
+      },
+      "OperationId": 183
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Sedia.ipt:1",
+        "parameterName": "EstrusioneCavallotto",
+        "parameterValue": 345.0
+      },
+      "OperationId": 184
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "reteGC.ipt:1",
+        "parameterName": "altezza",
+        "parameterValue": 220.0
+      },
+      "OperationId": 185
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "reteGC.ipt:1",
+        "parameterName": "larghezza",
+        "parameterValue": 230.0
+      },
+      "OperationId": 186
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "reteGC.ipt:1",
+        "parameterName": "profondita",
+        "parameterValue": 40.0
+      },
+      "OperationId": 187
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "reteGC.ipt:1",
+        "parameterName": "AlberoMotore",
+        "parameterValue": 38.0
+      },
+      "OperationId": 188
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "reteGC.ipt:1",
+        "parameterName": "AltezzaAsse",
+        "parameterValue": 132.0
+      },
+      "OperationId": 189
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoAV.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 190
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "Sedia.ipt:1",
+        "componentPath2": "AV.ipt:1",
+        "coordinateSystemName1": "UCSA1",
+        "coordinateSystemName2": "UCS1"
+      },
+      "OperationId": 191
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoAV.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 192
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "Sedia.ipt:1",
+        "componentPath2": "AV.ipt:2",
+        "coordinateSystemName1": "UCSA2",
+        "coordinateSystemName2": "UCS1"
+      },
+      "OperationId": 193
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoAV.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 194
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "Sedia.ipt:1",
+        "componentPath2": "AV.ipt:3",
+        "coordinateSystemName1": "UCSA3",
+        "coordinateSystemName2": "UCS1"
+      },
+      "OperationId": 195
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoAV.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 196
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "Sedia.ipt:1",
+        "componentPath2": "AV.ipt:4",
+        "coordinateSystemName1": "UCSA4",
+        "coordinateSystemName2": "UCS1"
+      },
+      "OperationId": 197
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoAV.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 198
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "Supporto.ipt:1",
+        "componentPath2": "AV.ipt:5",
+        "coordinateSystemName1": "UCSA1",
+        "coordinateSystemName2": "UCS1"
+      },
+      "OperationId": 199
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoAV.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 200
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "Supporto.ipt:1",
+        "componentPath2": "AV.ipt:6",
+        "coordinateSystemName1": "UCSA2",
+        "coordinateSystemName2": "UCS1"
+      },
+      "OperationId": 201
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoAV.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 202
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "SilenziatoreAspirazione.ipt:1",
+        "componentPath2": "AV.ipt:7",
+        "coordinateSystemName1": "UCSA1",
+        "coordinateSystemName2": "UCS1"
+      },
+      "OperationId": 203
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoAV.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 204
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "SilenziatoreAspirazione.ipt:1",
+        "componentPath2": "AV.ipt:8",
+        "coordinateSystemName1": "UCSA1",
+        "coordinateSystemName2": "UCS1"
+      },
+      "OperationId": 205
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoPAV.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 206
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "AV.ipt:1",
+        "componentPath2": "PAV.ipt:1",
+        "coordinateSystemName1": "UCS2",
+        "coordinateSystemName2": "UCS1"
+      },
+      "OperationId": 207
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoPAV.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 208
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "AV.ipt:2",
+        "componentPath2": "PAV.ipt:2",
+        "coordinateSystemName1": "UCS2",
+        "coordinateSystemName2": "UCS1"
+      },
+      "OperationId": 209
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoPAV.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 210
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "AV.ipt:3",
+        "componentPath2": "PAV.ipt:3",
+        "coordinateSystemName1": "UCS2",
+        "coordinateSystemName2": "UCS1"
+      },
+      "OperationId": 211
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoPAV.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 212
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "AV.ipt:4",
+        "componentPath2": "PAV.ipt:4",
+        "coordinateSystemName1": "UCS2",
+        "coordinateSystemName2": "UCS1"
+      },
+      "OperationId": 213
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoPAV.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 214
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "AV.ipt:5",
+        "componentPath2": "PAV.ipt:5",
+        "coordinateSystemName1": "UCS2",
+        "coordinateSystemName2": "UCS1"
+      },
+      "OperationId": 215
+    },
+    {
+      "Method": "AddComponent",
+      "Params": {
+        "newComponentName": "PercorsoPAV.ipt",
+        "startingFromAsmPath": ""
+      },
+      "OperationId": 216
+    },
+    {
+      "Method": "MateCoordinateSystems",
+      "Params": {
+        "componentPath1": "AV.ipt:6",
+        "componentPath2": "PAV.ipt:6",
+        "coordinateSystemName1": "UCS2",
+        "coordinateSystemName2": "UCS1"
+      },
+      "OperationId": 217
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Chiocciola.ipt:1",
+        "parameterName": "PortelloA",
+        "parameterValue": true
+      },
+      "OperationId": 218
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Chiocciola.ipt:1",
+        "parameterName": "PortelloB",
+        "parameterValue": false
+      },
+      "OperationId": 219
+    },
+    {
+      "Method": "ModifyParameter",
+      "Params": {
+        "componentPath": "Chiocciola.ipt:1",
+        "parameterName": "Rotazione",
+        "parameterValue": 0.0
+      },
+      "OperationId": 220
+    },
+    {
+      "Method": "Export",
+      "Params": {
+        "modelNewName": "Export.stp"
+      },
+      "OperationId": 221
+    },
+    {
+      "Method": "SaveAs",
+      "Params": {
+        "modelNewName": "E04.iam"
+      },
+      "OperationId": 222
+    },
+    {
+      "Method": "Close",
+      "Params": {
+        "saveChanges": false
+      },
+      "OperationId": 223
+    }
+  ],
+  "Parameters": {
+    "CADName": 2,
+    "CreateNewInstance": true,
+    "BaseWorkingPath": null,
+    "AppVisible": true,
+    "CustomDllFileName": "CADServer.Custom.dll",
+    "CustomTypeName": "CADServer.Custom.CustomInteractor",
+    "LengthUnit": null,
+    "AngleUnit": null,
+    "NotificationSettings": {
+      "Type": 0,
+      "CustomTypeName": null,
+      "CustomDllFileName": null,
+      "AdditionalParameters": {
+        "toEmail": "eraldo.marziano@configuratori.com"
+      }
+    },
+    "AdditionalParameters": null
+  }
+}
