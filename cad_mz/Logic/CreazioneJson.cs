@@ -197,10 +197,8 @@ namespace cad_mz.Logic
             }
             if (selection.AccessoriChiocciola.Contiene("PAV") && selection.Esecuzione.Key.Equals("E04"))
             {
-
-                if (selection.AccessoriChiocciola.Contiene("SA"))
+                if (!selection.AccessoriChiocciola.Contiene("SA"))
                     numeroAV -= 2;
-
                 DatiDimensionali dati = await SQL.CaricaPAV(selection.SelectedFan.DatiChiocciola.PAV);
                 for (int i = 0; i < numeroAV; i++)
                 {
